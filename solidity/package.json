@@ -1,0 +1,35 @@
+{
+  "name": "stormwinds",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy:watch": "hardhat deploy --network localhost --watch --export ../client/src/deployments.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.10",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/test-helpers": "^0.5.13",
+    "@typechain/ethers-v5": "^7.0.1",
+    "@typechain/hardhat": "^2.3.0",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.4.6",
+    "hardhat": "^2.6.2",
+    "hardhat-deploy": "^0.9.1",
+    "hardhat-gas-reporter": "^1.0.4",
+    "prettier": "2.3.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.17",
+    "ts-node": "^10.2.1",
+    "typechain": "^5.1.2",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.1"
+  }
+}
