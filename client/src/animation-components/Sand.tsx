@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback } from "react";
+import BaseAnimation from "./Base";
 
 const ROW_HEIGHT = 16;
 
@@ -8,36 +9,23 @@ function random(val: number) {
 }
 
 export default function SandAnimation() {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const requestRef = useRef<number>();
-
-  const animate = useCallback(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    const canvas = ref.current;
-    if (!canvas) return;
-    canvas.width = canvas.width;
+  const render = useCallback((canvas: HTMLCanvasElement, opts) => {
     const ctx = canvas.getContext("2d")!;
 
     for (var y = 0; y < canvas.height; y += ROW_HEIGHT) {
+      ctx.globalAlpha = 1;
       ctx.fillStyle = "#E9CB97";
-      const x =
-        -canvas.width -
-        canvas.width * random(y) +
-        (Date.now() % (canvas.width * 3)) / 1;
-
-      ctx.fillRect(x, y, canvas.width, ROW_HEIGHT);
+      const speed = random(y * 2) + 1;
+      let x = -canvas.width * 3 - canvas.width * random(y) + opts.time * speed;
+      x = Math.floor(x / 8) * 8;
+      ctx.fillRect(x, y, canvas.width * 2, ROW_HEIGHT);
+      ctx.globalAlpha = 0.8;
+      ctx.fillRect(x - 80, y, 80, ROW_HEIGHT);
+      ctx.globalAlpha = 0.4;
+      ctx.fillRect(x - 2 * 80, y, 80, ROW_HEIGHT);
+      ctx.globalAlpha = 0.2;
+      ctx.fillRect(x - 3 * 80, y, 80, ROW_HEIGHT);
     }
   }, []);
-
-  React.useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    ref.current!.width = window.innerWidth;
-    ref.current!.height = window.innerHeight;
-    return () => cancelAnimationFrame(requestRef.current!);
-  }, [animate]);
-  return (
-    <div className="animation-overlay">
-      <canvas ref={ref}></canvas>
-    </div>
-  );
+  return <BaseAnimation render={render} />;
 }

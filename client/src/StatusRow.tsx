@@ -21,9 +21,11 @@ export default function StatusRow({ name, status }: StatusRowProps) {
   };
   return (
     <div className={`${name} StatusRow`}>
-      {name} storm {statusStr}{" "}
-      <button onClick={activateStorm}>Activate (No Helm / Rune)</button>
+      <button onClick={activateStorm}>Activate</button>
+      {" | "}
       <button onClick={prayForStorm}>Pray</button>
+      {" | "}
+      {name} storm {statusStr}
     </div>
   );
 }

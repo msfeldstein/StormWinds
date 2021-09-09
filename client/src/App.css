@@ -55,6 +55,15 @@ a {
   margin-right: 16px;
 }
 
+.StatusRow button {
+  background: transparent;
+  border: 0;
+  color: white;
+  font-family: VGA;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 .calm {
   color: #999;
 }
@@ -101,4 +110,5 @@ a {
   height: 100%;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
