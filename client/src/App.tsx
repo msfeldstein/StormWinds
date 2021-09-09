@@ -12,8 +12,14 @@ function App() {
   const [storms, setStorms] = useState(defaultStatuses());
   useEffect(() => {
     async function effect() {
+      let provider: ethers.providers.Provider;
       // @ts-ignore
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      if (window.ethereum) {
+        // @ts-ignore
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+      } else {
+        provider = new ethers.providers.JsonRpcProvider();
+      }
       const StormsContract = Storms__factory.connect(
         StormsData.contracts.Storms.address,
         provider
@@ -23,7 +29,7 @@ function App() {
       setStorms(namedStorms);
     }
     effect();
-  });
+  }, []);
   return (
     <div className="App">
       <div className="Title">Stormwinds</div>

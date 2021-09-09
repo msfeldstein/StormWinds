@@ -85,3 +85,12 @@ a {
 ::-moz-selection {
   background: #333; /* Gecko Browsers */
 }
+
+.information {
+  display: flex;
+  flex-direction: row;
+}
+
+.information .links {
+  margin-left: auto;
+}

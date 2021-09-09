@@ -7,6 +7,11 @@ export default function Information() {
         Stormwinds is a project to bring a world of storms and power to the
         adventurers of the Loot project.
       </div>
+      <div className="links">
+        <a href="https://github.com/msfeldstein/StormWinds"> Github </a> |
+        <a href="https://twitter.com/stormwindsgame"> Twitter </a> |
+        <a href="#"> Etherscan </a>
+      </div>
     </div>
   );
 }
