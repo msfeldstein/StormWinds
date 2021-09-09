@@ -7,6 +7,7 @@ import { Storms__factory } from "./contracts";
 import { defaultStatuses, toNamedMap } from "./StormsUtil";
 import StormsData from "./deployments.json";
 import { ethers } from "ethers";
+import SandAnimation from "./animation-components/Sand";
 
 function App() {
   const [storms, setStorms] = useState(defaultStatuses());
@@ -31,12 +32,15 @@ function App() {
     effect();
   }, []);
   return (
-    <div className="App">
-      <div className="Title">Stormwinds</div>
-      <ActiveStorm storms={storms} />
-      <AllStorms storms={storms} />
-      <Information />
-    </div>
+    <>
+      <div className="App">
+        <div className="Title">Stormwinds</div>
+        <ActiveStorm storms={storms} />
+        <AllStorms storms={storms} />
+        <Information />
+      </div>
+      {/* <SandAnimation /> */}
+    </>
   );
 }
 
