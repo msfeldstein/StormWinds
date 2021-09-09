@@ -3,6 +3,11 @@
   src: url("./assets/pixeltakhisis.otf") format("opentype");
 }
 
+@font-face {
+  font-family: VGA;
+  src: url("./assets/IBM_VGA_8x16.woff") format("woff");
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Tinos&display=swap");
 
 html,
@@ -22,7 +27,8 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 a {
@@ -34,7 +40,7 @@ a {
 }
 
 .information {
-  font-family: Tinos;
+  font-family: VGA;
   color: #c4c4c4;
   margin-top: auto;
   font-size: 16px;
@@ -42,5 +48,40 @@ a {
 
 .ActiveStorm {
   font-size: 82px;
+}
+
+.StatusRow {
+  font-size: 16px;
+  margin-right: 16px;
+}
+
+.calm {
+  color: #999;
+}
+
+.fire {
   color: #ff0000;
+}
+
+.sand {
+  color: #9f9a1b;
+}
+
+.ice {
+  color: #2ca9d0;
+}
+
+.wind {
+  color: #c4c4c4;
+}
+
+.lightning {
+  color: #cfff69;
+}
+
+::selection {
+  background: #333; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #333; /* Gecko Browsers */
 }

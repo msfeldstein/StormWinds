@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ActiveStorm from "./ActiveStorm";
+import AllStorms from "./AllStorms";
 import "./App.css";
 import Information from "./Information";
-import { ethers } from "ethers";
-import { Storms__factory } from "./contracts/factories/Storms__factory";
+import { Storms__factory } from "./contracts";
+import { defaultStatuses, toNamedMap } from "./StormsUtil";
 import StormsData from "./deployments.json";
+import { ethers } from "ethers";
 
-console.log(StormsData.contracts.Storms.address);
 function App() {
+  const [storms, setStorms] = useState(defaultStatuses());
   useEffect(() => {
     async function effect() {
       // @ts-ignore
@@ -17,14 +19,16 @@ function App() {
         provider
       );
       const activeStorms = await StormsContract.activeStorms();
-      console.log("ActiveStorms", activeStorms);
+      const namedStorms = toNamedMap(activeStorms);
+      setStorms(namedStorms);
     }
     effect();
   });
   return (
     <div className="App">
       <div className="Title">Stormwinds</div>
-      <ActiveStorm />
+      <ActiveStorm storms={storms} />
+      <AllStorms storms={storms} />
       <Information />
     </div>
   );
