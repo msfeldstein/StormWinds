@@ -25,7 +25,7 @@ export function toNamedMap(fromContract: Array<boolean>): StormStatuses {
     (name, i) =>
       (obj[name] = fromContract[i] ? StormStatus.ACTIVE : StormStatus.INACTIVE)
   );
-  obj.ice = StormStatus.ACTIVE;
+  obj.lightning = StormStatus.ACTIVE;
   return obj as StormStatuses;
 }
 
@@ -33,7 +33,7 @@ export function defaultStatuses(): StormStatuses {
   return {
     fire: StormStatus.LOADING,
     sand: StormStatus.LOADING,
-    ice: StormStatus.ACTIVE,
+    ice: StormStatus.LOADING,
     wind: StormStatus.LOADING,
     lightning: StormStatus.LOADING,
   };

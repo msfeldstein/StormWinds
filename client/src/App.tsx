@@ -7,8 +7,7 @@ import { Storms__factory } from "./contracts";
 import { defaultStatuses, toNamedMap } from "./StormsUtil";
 import StormsData from "./deployments.json";
 import { ethers } from "ethers";
-import SandAnimation from "./animation-components/Sand";
-import IceAnimation from "./animation-components/Ice";
+import ActiveAnimation from "./animation-components/ActiveAnimation";
 
 function App() {
   const [storms, setStorms] = useState(defaultStatuses());
@@ -40,8 +39,7 @@ function App() {
         <AllStorms storms={storms} />
         <Information />
       </div>
-      {/* <SandAnimation /> */}
-      <IceAnimation />
+      <ActiveAnimation storms={storms} />
     </>
   );
 }

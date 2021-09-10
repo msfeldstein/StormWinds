@@ -1,12 +1,22 @@
 import { render } from "@testing-library/react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 type AnimationCallback = (
   canvas: HTMLCanvasElement,
-  opts: { time: number }
+  opts: { time: number },
+  values?: any
 ) => void;
 
-export default function BaseAnimation(props: { render: AnimationCallback }) {
+export default function BaseAnimation(props: {
+  initialValues?: any;
+  render: AnimationCallback;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>();
   const [start, setStart] = useState(Date.now());
@@ -15,6 +25,9 @@ export default function BaseAnimation(props: { render: AnimationCallback }) {
   }, [setStart]);
 
   const render = props.render;
+  const values = useMemo(() => {
+    return { ...props.initialValues };
+  }, [props.initialValues]);
   const animate = useCallback(() => {
     requestRef.current = requestAnimationFrame(animate);
     const canvas = ref.current;
@@ -22,8 +35,8 @@ export default function BaseAnimation(props: { render: AnimationCallback }) {
     canvas.width = canvas.width * 1;
     let time = Date.now() - start;
     time = Math.floor(time / 32) * 32;
-    render(canvas, { time: time });
-  }, [render, start]);
+    render(canvas, { time: time }, values);
+  }, [render, start, values]);
 
   React.useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -31,6 +44,7 @@ export default function BaseAnimation(props: { render: AnimationCallback }) {
     ref.current!.height = window.innerHeight;
     return () => cancelAnimationFrame(requestRef.current!);
   }, [animate]);
+
   return (
     <div className="animation-overlay">
       <canvas ref={ref}></canvas>
