@@ -25,7 +25,7 @@ export function toNamedMap(fromContract: Array<boolean>): StormStatuses {
     (name, i) =>
       (obj[name] = fromContract[i] ? StormStatus.ACTIVE : StormStatus.INACTIVE)
   );
-  obj.lightning = StormStatus.ACTIVE;
+  obj.fire = StormStatus.ACTIVE;
   return obj as StormStatuses;
 }
 
