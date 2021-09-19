@@ -6,4 +6,6 @@ const deployment =
     ? TestnetDeployment
     : LocalhostDeployment;
 
+console.log("Deployment", deployment);
+
 export default deployment;
