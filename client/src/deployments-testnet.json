@@ -1,9 +1,9 @@
 {
-  "name": "localhost",
-  "chainId": "1337",
+  "name": "ropsten",
+  "chainId": "3",
   "contracts": {
     "Storms": {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "address": "0x14ef6e8ccc0cd16f4ddb2610bcfa453403fec63e",
       "abi": [
         {
           "anonymous": false,
