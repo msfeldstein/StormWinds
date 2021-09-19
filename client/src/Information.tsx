@@ -1,4 +1,5 @@
 import React from "react";
+import StormsData, { etherscan } from "./deployment";
 
 export default function Information() {
   return (
@@ -10,7 +11,7 @@ export default function Information() {
       <div className="links">
         <a href="https://github.com/msfeldstein/StormWinds"> Github </a> |
         <a href="https://twitter.com/stormwindsgame"> Twitter </a> |
-        <a href="#"> Etherscan </a>
+        <a href={etherscan}> Etherscan </a>
       </div>
     </div>
   );
