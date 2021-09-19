@@ -7,7 +7,6 @@ pragma solidity ^0.8.0;
 // \ \| __/ _ \| '__| '_ ` _ \ \/  \/ / | '_ \ / _` / __|
 // _\ \ || (_) | |  | | | | | \  /\  /| | | | | (_| \__ \
 // \__/\__\___/|_|  |_| |_| |_|\/  \/ |_|_| |_|\__,_|___/
-
 // summoned by @msfeldstein
 //
 
@@ -50,5 +49,10 @@ contract Storms is Ownable {
         require(_endTime > block.timestamp);
         activeStormMapping[uint8(_storm)] = _endTime;
         emit StormBegins(_storm);
+    }
+
+    function withdraw() public onlyOwner {
+        uint balance = address(this).balance;
+        payable(msg.sender).transfer(balance);
     }
 }

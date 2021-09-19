@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "node": "hardhat node",
-    "deploy:watch": "hardhat deploy --network localhost --watch --export ../client/src/deployments.json",
+    "deploy:localhost": "hardhat deploy --network localhost --watch --export ../client/src/deployments-localhost.json",
+    "deploy:testnet": "hardhat deploy --network localhost --export ../client/src/deployments-testnet.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

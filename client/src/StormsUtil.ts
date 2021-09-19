@@ -1,4 +1,4 @@
-import StormsData from "./deployments.json";
+import StormsData from "./deployment";
 import { ethers } from "ethers";
 import { Storms__factory } from "./contracts";
 

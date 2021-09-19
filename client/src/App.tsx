@@ -5,7 +5,7 @@ import "./App.css";
 import Information from "./Information";
 import { Storms__factory } from "./contracts";
 import { defaultStatuses, toNamedMap } from "./StormsUtil";
-import StormsData from "./deployments.json";
+import StormsData from "./deployment";
 import { ethers } from "ethers";
 import ActiveAnimation from "./animation-components/ActiveAnimation";
 import AllAnimations from "./animation-components/AllAnimations";
