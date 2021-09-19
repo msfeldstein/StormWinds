@@ -38,8 +38,8 @@ export function defaultStatuses(): StormStatuses {
   };
 }
 
-export async function activate(name: StormName) {
-  console.log("Activate ", name);
+export async function summon(name: StormName) {
+  console.log("Summon ", name);
   // @ts-ignore
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const StormsContract = Storms__factory.connect(
@@ -48,7 +48,7 @@ export async function activate(name: StormName) {
   );
   const signer = provider.getSigner();
   const authed = StormsContract.connect(signer);
-  await authed.activate(
+  await authed.summon(
     names.indexOf(name),
     Math.floor(Date.now() / 1000) + 1000
   );

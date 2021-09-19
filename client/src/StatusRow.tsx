@@ -1,5 +1,5 @@
 import React from "react";
-import { activate, StormName, StormStatus } from "./StormsUtil";
+import { summon, StormName, StormStatus } from "./StormsUtil";
 
 type StatusRowProps = {
   name: StormName;
@@ -12,8 +12,8 @@ export default function StatusRow({ name, status }: StatusRowProps) {
     [StormStatus.INACTIVE]: "Calm",
   }[status];
 
-  const activateStorm = () => {
-    activate(name);
+  const summonStorm = () => {
+    summon(name);
   };
 
   const prayForStorm = () => {
@@ -21,7 +21,7 @@ export default function StatusRow({ name, status }: StatusRowProps) {
   };
   return (
     <div className={`${name} StatusRow`}>
-      <button onClick={activateStorm}>Activate</button>
+      <button onClick={summonStorm}>Summon</button>
       {" | "}
       <button onClick={prayForStorm}>Pray</button>
       {" | "}

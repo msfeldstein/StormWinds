@@ -21,18 +21,14 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface StormsInterface extends ethers.utils.Interface {
   functions: {
-    "activate(uint8,uint256)": FunctionFragment;
     "activeStorms()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "summon(uint8,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "withdraw()": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "activate",
-    values: [BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "activeStorms",
     values?: undefined
@@ -43,12 +39,15 @@ interface StormsInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "summon",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "activate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "activeStorms",
     data: BytesLike
@@ -58,6 +57,7 @@ interface StormsInterface extends ethers.utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "summon", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -117,12 +117,6 @@ export class Storms extends BaseContract {
   interface: StormsInterface;
 
   functions: {
-    activate(
-      _storm: BigNumberish,
-      _endTime: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     activeStorms(
       overrides?: CallOverrides
     ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
@@ -130,6 +124,12 @@ export class Storms extends BaseContract {
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    summon(
+      _storm: BigNumberish,
+      _endTime: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -143,12 +143,6 @@ export class Storms extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  activate(
-    _storm: BigNumberish,
-    _endTime: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   activeStorms(
     overrides?: CallOverrides
   ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
@@ -156,6 +150,12 @@ export class Storms extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  summon(
+    _storm: BigNumberish,
+    _endTime: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -169,12 +169,6 @@ export class Storms extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    activate(
-      _storm: BigNumberish,
-      _endTime: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     activeStorms(
       overrides?: CallOverrides
     ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
@@ -182,6 +176,12 @@ export class Storms extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    summon(
+      _storm: BigNumberish,
+      _endTime: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     transferOwnership(
       newOwner: string,
@@ -204,17 +204,17 @@ export class Storms extends BaseContract {
   };
 
   estimateGas: {
-    activate(
-      _storm: BigNumberish,
-      _endTime: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     activeStorms(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    summon(
+      _storm: BigNumberish,
+      _endTime: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -229,17 +229,17 @@ export class Storms extends BaseContract {
   };
 
   populateTransaction: {
-    activate(
-      _storm: BigNumberish,
-      _endTime: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     activeStorms(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    summon(
+      _storm: BigNumberish,
+      _endTime: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

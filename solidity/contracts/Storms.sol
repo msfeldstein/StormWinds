@@ -45,7 +45,7 @@ contract Storms is Ownable {
         );
     }
 
-    function activate(StormType _storm, uint256 _endTime) external {
+    function summon(StormType _storm, uint256 _endTime) external {
         require(_endTime > block.timestamp);
         activeStormMapping[uint8(_storm)] = _endTime;
         emit StormBegins(_storm);
