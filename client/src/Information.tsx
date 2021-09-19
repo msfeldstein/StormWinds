@@ -1,5 +1,5 @@
 import React from "react";
-import StormsData, { etherscan } from "./deployment";
+import { etherscan } from "./deployment";
 
 export default function Information() {
   return (

@@ -5,11 +5,6 @@ const ROW_SIZE = 16;
 const COL_SIZE = 8;
 const NOISE_SCALE = 0.1;
 
-function random(val: number) {
-  var x = Math.sin(val) * 10000;
-  return x - Math.floor(x);
-}
-
 function clamp(v: number, min: number, max: number) {
   return Math.min(Math.max(min, v), max);
 }

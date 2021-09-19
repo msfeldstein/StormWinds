@@ -14,12 +14,22 @@ function App() {
   const [storms, setStorms] = useState(defaultStatuses());
   useEffect(() => {
     async function effect() {
+      const hexChainId = "0x" + parseInt(StormsData.chainId).toString(16);
       let provider: ethers.providers.Provider;
       // @ts-ignore
-      if (window.ethereum) {
+      if (window.ethereum && window.ethereum.chainId === hexChainId) {
+        console.log("Connecting to metamask");
         // @ts-ignore
         provider = new ethers.providers.Web3Provider(window.ethereum);
       } else {
+        console.log(
+          "No appropriate ethereum provider for chainId ",
+          hexChainId,
+          // @ts-ignore
+          window.ethereum,
+          // @ts-ignore
+          window.ethereum && window.ethereum.chainId
+        );
         provider = new ethers.providers.JsonRpcProvider();
       }
       const StormsContract = Storms__factory.connect(

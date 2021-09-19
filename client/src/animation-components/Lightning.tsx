@@ -4,14 +4,6 @@ import BaseAnimation from "./Base";
 const ROW_SIZE = 16;
 const COL_SIZE = 8;
 
-function random(val: number) {
-  var x = Math.sin(val) * 10000;
-  return x - Math.floor(x);
-}
-
-function clamp(v: number, min: number, max: number) {
-  return Math.min(Math.max(min, v), max);
-}
 const SPEED = 1000;
 const color = "yellow";
 type LightningValues = {

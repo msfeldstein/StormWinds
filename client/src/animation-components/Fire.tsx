@@ -1,20 +1,14 @@
-import React, { useCallback, useContext } from "react";
+import React from "react";
 import BaseAnimation from "./Base";
 import { perlin2 } from "./perlin2";
 const ROW_SIZE = 16;
 const COL_SIZE = 8;
-const NOISE_SCALE = 0.1;
-
-function random(val: number) {
-  var x = Math.sin(val) * 10000;
-  return x - Math.floor(x);
-}
 
 function clamp(v: number, min: number, max: number) {
   return Math.min(Math.max(min, v), max);
 }
 const SPEED = 3000;
-const colors = ["#75AEDC", "#94C6E3", "#9ED8F0", "#D4F1F9"];
+// const colors = ["#75AEDC", "#94C6E3", "#9ED8F0", "#D4F1F9"];
 
 function fbm(x: number, y: number) {
   const OCTAVES = 6;

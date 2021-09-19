@@ -1,7 +1,5 @@
-import { StormStatus, StormStatuses } from "../StormsUtil";
 import FireAnimation from "./Fire";
 import IceAnimation from "./Ice";
-import LightningAnimation from "./Lightning";
 import SandAnimation from "./Sand";
 
 export default function AllAnimations() {
