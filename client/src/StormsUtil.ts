@@ -21,11 +21,10 @@ export type StormStatuses = {
 
 export function toNamedMap(fromContract: Array<boolean>): StormStatuses {
   const obj: { [key: string]: StormStatus } = {};
-  names.forEach(
-    (name, i) =>
-      (obj[name] = fromContract[i] ? StormStatus.ACTIVE : StormStatus.INACTIVE)
-  );
-  obj.fire = StormStatus.ACTIVE;
+  names.forEach((name, i) => {
+    obj[name] = fromContract[i] ? StormStatus.ACTIVE : StormStatus.INACTIVE;
+    if (document.location.hash.includes(name)) obj[name] = StormStatus.ACTIVE;
+  });
   return obj as StormStatuses;
 }
 
