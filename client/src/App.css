@@ -112,3 +112,25 @@ a {
   left: 0;
   pointer-events: none;
 }
+
+.AllAnimations {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.AllAnimations > div {
+  flex-grow: 1;
+  flex-basis: 0;
+  height: 100%;
+}
+
+.AllAnimations .animation-overlay {
+  position: relative;
+}
+
+.animation-overlay canvas {
+  width: 100%;
+  height: 100%;
+}

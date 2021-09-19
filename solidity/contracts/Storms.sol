@@ -1,10 +1,20 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
+
+//  __ _                      __    __ _           _
+// / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
+// \ \| __/ _ \| '__| '_ ` _ \ \/  \/ / | '_ \ / _` / __|
+// _\ \ || (_) | |  | | | | | \  /\  /| | | | | (_| \__ \
+// \__/\__\___/|_|  |_| |_| |_|\/  \/ |_|_| |_|\__,_|___/
+
+// summoned by @msfeldstein
+//
+
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Storms is Ownable {
+    address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     enum StormType {
         FIRE,
         SAND,

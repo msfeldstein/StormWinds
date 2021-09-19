@@ -44,21 +44,25 @@ function overlay(base: number, top: number) {
 function render(canvas: HTMLCanvasElement, opts: any) {
   const ctx = canvas.getContext("2d")!;
   let t = opts.time / SPEED;
-  if (opts.time > SPEED) {
-    t = 1 - (opts.time - SPEED) / SPEED;
+  if (opts.time > SPEED * 3) {
+    t = 1 - (opts.time - SPEED * 3) / SPEED;
   }
   t = clamp(t, 0, 1);
   for (let x = 0; x < canvas.width; x += COL_SIZE) {
     for (let y = 0; y < canvas.height; y += ROW_SIZE) {
       const yNorm = y / canvas.height;
-      const coordX = x / 12 / COL_SIZE;
-      const coordY = y / 12 / ROW_SIZE;
+      const coordX = x / 6 / COL_SIZE;
+      const coordY = y / 6 / ROW_SIZE;
       const fbmX = coordX / 6;
       const fbmY = coordY / 6;
-      const fbmNoise = fbm(fbmX, fbmY + opts.time * 0.0008);
-      const fadeFbmNoise = overlay(fbmNoise, yNorm - 0.1);
-      const value = fadeFbmNoise;
-      const percent = value * 100;
+      const fbmNoise = fbm(
+        fbmX + opts.time * -0.0004,
+        fbmY + opts.time * 0.0008
+      );
+      const fadeFbmNoise = overlay(fbmNoise, yNorm);
+      let value = fadeFbmNoise;
+      value = Math.floor(value * 8) / 8;
+      const percent = value * 100 * t;
       ctx.fillStyle = `hsla(0.0, 100%, ${percent}%, ${(percent / 100) * 2})`;
       ctx.fillRect(x, y, COL_SIZE, ROW_SIZE);
     }

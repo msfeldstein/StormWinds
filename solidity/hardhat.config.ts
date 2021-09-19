@@ -2,6 +2,7 @@ import { HardhatUserConfig } from "hardhat/types";
 import { task } from "hardhat/config";
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-gas-reporter";
 import "hardhat-deploy";
@@ -35,6 +36,12 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
+    ropsten: {
+      url: "https://eth-ropsten.alchemyapi.io/v2/fPaqmXdqpVr6JQV4f0hdegj2Y8rwh6_d",
+      accounts: [
+        "0xf4947795e471b43fe86b0f8e1b86eadaab993a61d769b5ef808f87cac74f171b",
+      ],
+    },
   },
   namedAccounts: {
     deployer: {
@@ -42,6 +49,9 @@ const config: HardhatUserConfig = {
       1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
       4: "SpecificAddress", // but for rinkeby it will be a specific address
     },
+  },
+  etherscan: {
+    apiKey: "22FWIVWKUQ6WP4DV12TJUMFPCWEMUKXGYB",
   },
   paths: {
     deployments: "../client/src/deployments",

@@ -40,8 +40,9 @@ export default function BaseAnimation(props: {
 
   React.useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
-    ref.current!.width = window.innerWidth;
-    ref.current!.height = window.innerHeight;
+    const canvas = ref.current!;
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
     return () => cancelAnimationFrame(requestRef.current!);
   }, [animate]);
 

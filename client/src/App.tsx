@@ -8,6 +8,7 @@ import { defaultStatuses, toNamedMap } from "./StormsUtil";
 import StormsData from "./deployments.json";
 import { ethers } from "ethers";
 import ActiveAnimation from "./animation-components/ActiveAnimation";
+import AllAnimations from "./animation-components/AllAnimations";
 
 function App() {
   const [storms, setStorms] = useState(defaultStatuses());
@@ -31,6 +32,9 @@ function App() {
     }
     effect();
   }, []);
+  if (false) {
+    return <AllAnimations />;
+  }
   return (
     <>
       <div className="App">
