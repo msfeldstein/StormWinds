@@ -3,7 +3,7 @@ import ActiveStorm from "./ActiveStorm";
 import AllStorms from "./AllStorms";
 import "./App.css";
 import Information from "./Information";
-import { Storms__factory } from "./contracts";
+import { Storms, Storms__factory } from "./contracts";
 import { defaultStatuses, toNamedMap } from "./StormsUtil";
 import StormsData from "./deployment";
 import { ethers } from "ethers";
@@ -30,7 +30,12 @@ function App() {
           // @ts-ignore
           window.ethereum && window.ethereum.chainId
         );
-        provider = new ethers.providers.JsonRpcProvider();
+        if (StormsData.name === "localhost") {
+          provider = new ethers.providers.JsonRpcProvider();
+        } else {
+          provider = ethers.getDefaultProvider(StormsData.name);
+        }
+        console.log("Using provider", provider);
       }
       const StormsContract = Storms__factory.connect(
         StormsData.contracts.Storms.address,
