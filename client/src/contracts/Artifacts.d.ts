@@ -27,6 +27,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "conjureHelm()": FunctionFragment;
     "conjureShard()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "hasHelm(address,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "nextHelmPrice()": FunctionFragment;
@@ -60,6 +61,10 @@ interface ArtifactsInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasHelm",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -127,6 +132,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "hasHelm", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -248,6 +254,12 @@ export class Artifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    hasHelm(
+      _adventurer: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -342,6 +354,12 @@ export class Artifacts extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  hasHelm(
+    _adventurer: string,
+    arg1: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -425,6 +443,12 @@ export class Artifacts extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    hasHelm(
+      _adventurer: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     isApprovedForAll(
       owner: string,
@@ -548,6 +572,12 @@ export class Artifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    hasHelm(
+      _adventurer: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -643,6 +673,12 @@ export class Artifacts extends BaseContract {
 
     getApproved(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    hasHelm(
+      _adventurer: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

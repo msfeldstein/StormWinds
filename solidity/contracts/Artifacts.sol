@@ -36,7 +36,12 @@ Each Helm costs 1 eth
         return 1 ether;
     }
 
-    function hasHelm(address _adventurer, string calldata _type) {}
+    function hasHelm(
+        address _adventurer,
+        string calldata /* _type */
+    ) public view returns (bool) {
+        return balanceOf(_adventurer) > 0;
+    }
 
     /*
 conjureShard will mint a random shard
