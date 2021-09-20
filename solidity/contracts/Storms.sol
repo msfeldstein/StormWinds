@@ -18,16 +18,8 @@ contract Storms is Ownable {
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     address artifactAddress;
 
-    enum StormType {
-        FIRE,
-        SAND,
-        ICE,
-        WIND,
-        LIGHTNING
-    }
-    event StormBegins(StormType);
     // The dates that the storms are active until
-    mapping(uint8 => uint256) activeStormMapping;
+    mapping(string => uint256) activeStormMapping;
 
     constructor(address _artifactAdress) {
         artifactAddress = _artifactAdress;
@@ -45,20 +37,41 @@ contract Storms is Ownable {
         )
     {
         return (
-            activeStormMapping[uint8(StormType.FIRE)] > block.timestamp,
-            activeStormMapping[uint8(StormType.SAND)] > block.timestamp,
-            activeStormMapping[uint8(StormType.ICE)] > block.timestamp,
-            activeStormMapping[uint8(StormType.WIND)] > block.timestamp,
-            activeStormMapping[uint8(StormType.LIGHTNING)] > block.timestamp
+            activeStormMapping["FIRE"] > block.timestamp,
+            activeStormMapping["SAND"] > block.timestamp,
+            activeStormMapping["ICE"] > block.timestamp,
+            activeStormMapping["WIND"] > block.timestamp,
+            activeStormMapping["LIGHTNING"] > block.timestamp
         );
     }
 
-    function summon(StormType _storm, uint256 _endTime) external {
+    function stormIsActive(string calldata _stormName)
+        public
+        view
+        returns (bool)
+    {}
+
+    function compareStrings(string calldata a, string memory b)
+        public
+        pure
+        returns (bool)
+    {
+        return (keccak256(abi.encodePacked((a))) ==
+            keccak256(abi.encodePacked((b))));
+    }
+
+    function summon(string calldata _storm, uint256 _endTime) external {
         require(_endTime > block.timestamp);
         Artifacts artifacts = Artifacts(artifactAddress);
         require(artifacts.hasHelm(msg.sender, "fire"), "powerless");
-        activeStormMapping[uint8(_storm)] = _endTime;
-        emit StormBegins(_storm);
+        require(
+            compareStrings(_storm, "FIRE") ||
+                compareStrings(_storm, "SAND") ||
+                compareStrings(_storm, "ICE") ||
+                compareStrings(_storm, "WIND") ||
+                compareStrings(_storm, "LIGHTNING")
+        );
+        activeStormMapping[_storm] = _endTime;
     }
 
     function withdraw() public onlyOwner {

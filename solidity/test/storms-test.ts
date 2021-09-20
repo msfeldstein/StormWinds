@@ -28,14 +28,14 @@ describe("Storms", function () {
 
   it("Should not be able to summon a storm without a helm", async function () {
     await expectRevert(
-      storms.summon(0, Math.floor(Date.now() / 1000) + 1000),
+      storms.summon("FIRE", Math.floor(Date.now() / 1000) + 1000),
       "powerless"
     );
   });
 
   it("Should have active fire storm once activated", async function () {
     await artifacts.conjureHelm({ value: ethers.utils.parseEther("1.0") });
-    await storms.summon(0, Math.floor(Date.now() / 1000) + 1000);
+    await storms.summon("FIRE", Math.floor(Date.now() / 1000) + 1000);
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.true;
     expect(sand).to.be.false;
@@ -46,7 +46,7 @@ describe("Storms", function () {
 
   it("Should have active wind storm once activated", async function () {
     await artifacts.conjureHelm({ value: ethers.utils.parseEther("1.0") });
-    await storms.summon(3, Math.floor(Date.now() / 1000) + 1000);
+    await storms.summon("WIND", Math.floor(Date.now() / 1000) + 1000);
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.false;
     expect(sand).to.be.false;

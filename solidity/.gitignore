@@ -4,3 +4,4 @@ node_modules
 #Hardhat files
 cache
 artifacts
+client/src/deployments/localhost
