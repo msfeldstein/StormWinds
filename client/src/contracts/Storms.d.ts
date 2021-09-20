@@ -23,6 +23,7 @@ interface StormsInterface extends ethers.utils.Interface {
   functions: {
     "activeStorms()": FunctionFragment;
     "owner()": FunctionFragment;
+    "pray(uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "summon(uint8,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -34,6 +35,7 @@ interface StormsInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pray", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -53,6 +55,7 @@ interface StormsInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pray", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -123,6 +126,11 @@ export class Storms extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    pray(
+      _storm: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -149,6 +157,11 @@ export class Storms extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  pray(
+    _storm: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -174,6 +187,8 @@ export class Storms extends BaseContract {
     ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
 
     owner(overrides?: CallOverrides): Promise<string>;
+
+    pray(_storm: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -208,6 +223,11 @@ export class Storms extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pray(
+      _storm: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -232,6 +252,11 @@ export class Storms extends BaseContract {
     activeStorms(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pray(
+      _storm: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }

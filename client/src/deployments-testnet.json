@@ -3,7 +3,7 @@
   "chainId": "3",
   "contracts": {
     "Storms": {
-      "address": "0xb4a643F8c812AE46e4293A86058dd3bF6a1b5b78",
+      "address": "0x8173B708ed8e0e95C0e09B97df56c52b82Dd52ba",
       "abi": [
         {
           "anonymous": false,
@@ -81,6 +81,19 @@
             }
           ],
           "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "enum Storms.StormType",
+              "name": "_storm",
+              "type": "uint8"
+            }
+          ],
+          "name": "pray",
+          "outputs": [],
+          "stateMutability": "nonpayable",
           "type": "function"
         },
         {

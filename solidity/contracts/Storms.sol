@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-
 //  __ _                      __    __ _           _
 // / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
 // \ \| __/ _ \| '__| '_ ` _ \ \/  \/ / | '_ \ / _` / __|
@@ -12,8 +11,12 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+// import "hardhat/console.sol";
+
 contract Storms is Ownable {
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
+    address artifactAddress;
+
     enum StormType {
         FIRE,
         SAND,
@@ -24,6 +27,10 @@ contract Storms is Ownable {
     event StormBegins(StormType);
     // The dates that the storms are active until
     mapping(uint8 => uint256) activeStormMapping;
+
+    constructor(address _artifactAdress) {
+        artifactAddress = _artifactAdress;
+    }
 
     function activeStorms()
         external
@@ -51,8 +58,12 @@ contract Storms is Ownable {
         emit StormBegins(_storm);
     }
 
+    function pray(StormType _storm) external {
+        //sdfa
+    }
+
     function withdraw() public onlyOwner {
-        uint balance = address(this).balance;
+        uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
     }
 }
