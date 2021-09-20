@@ -9,7 +9,7 @@ describe("Storms", function () {
   let artifacts: Contract;
 
   beforeEach(async function () {
-    const Artifacts = await ethers.getContractFactory("Artifacts");
+    const Artifacts = await ethers.getContractFactory("TestArtifacts");
     artifacts = await Artifacts.deploy();
     await artifacts.deployed();
     const Storms = await ethers.getContractFactory("Storms");
@@ -34,7 +34,7 @@ describe("Storms", function () {
   });
 
   it("Should have active fire storm once activated", async function () {
-    await artifacts.conjureHelm({ value: ethers.utils.parseEther("1.0") });
+    await artifacts.mintToken(1);
     await storms.summon("fire", Math.floor(Date.now() / 1000) + 1000);
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.true;
@@ -49,8 +49,28 @@ describe("Storms", function () {
   });
 
   it("Should have active wind storm once activated", async function () {
-    await artifacts.conjureHelm({ value: ethers.utils.parseEther("1.0") });
+    await artifacts.mintToken(10);
     await storms.summon("wind", Math.floor(Date.now() / 1000) + 1000);
+    const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
+    expect(fire).to.be.false;
+    expect(sand).to.be.false;
+    expect(ice).to.be.false;
+    expect(wind).to.be.true;
+    expect(lightning).to.be.false;
+    const fireActive = await storms.stormIsActive("fire");
+    expect(fireActive).to.be.false;
+    const windActive = await storms.stormIsActive("wind");
+    expect(windActive).to.be.true;
+  });
+
+  it("Should be unable to activate without the correct helm type", async function () {
+    // Mint a wind helm
+    await artifacts.mintToken(10);
+    // Try to activate fire
+    await expectRevert(
+      storms.summon("fire", Math.floor(Date.now() / 1000) - 1000),
+      "powerless"
+    );
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.false;
     expect(sand).to.be.false;

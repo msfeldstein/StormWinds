@@ -12,6 +12,7 @@ export type { ERC165 } from "./ERC165";
 export type { IERC165 } from "./IERC165";
 export type { Artifacts } from "./Artifacts";
 export type { Storms } from "./Storms";
+export type { TestArtifacts } from "./TestArtifacts";
 
 export { Ownable__factory } from "./factories/Ownable__factory";
 export { ERC721__factory } from "./factories/ERC721__factory";
@@ -24,3 +25,4 @@ export { ERC165__factory } from "./factories/ERC165__factory";
 export { IERC165__factory } from "./factories/IERC165__factory";
 export { Artifacts__factory } from "./factories/Artifacts__factory";
 export { Storms__factory } from "./factories/Storms__factory";
+export { TestArtifacts__factory } from "./factories/TestArtifacts__factory";
