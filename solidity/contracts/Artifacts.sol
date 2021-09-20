@@ -68,6 +68,7 @@ Each Helm costs 1 eth
         uint256 balance = balanceOf(_adventurer);
         for (uint i = 0; i < balance; i++) {
             uint token = tokenOfOwnerByIndex(_adventurer, i);
+            console.log("Checking token", token);
             if (token == 0) {
                 return true;
             } else if (token < 4) {
