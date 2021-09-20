@@ -16,6 +16,7 @@ describe("Storms", function () {
     storms = await Storms.deploy(artifacts.address);
     await storms.deployed();
   });
+
   it("Should have no active storms on initial deploy", async function () {
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.false;
@@ -25,7 +26,20 @@ describe("Storms", function () {
     expect(lightning).to.be.false;
   });
 
+  it("Should not be able to summon a storm without a helm", async function () {
+    await expectRevert.unspecified(
+      await storms.summon(0, Math.floor(Date.now() / 1000) + 1000)
+    );
+    const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
+    expect(fire).to.be.true;
+    expect(sand).to.be.false;
+    expect(ice).to.be.false;
+    expect(wind).to.be.false;
+    expect(lightning).to.be.false;
+  });
+
   it("Should have active fire storm once activated", async function () {
+    await artifacts.conjureHelm();
     await storms.summon(0, Math.floor(Date.now() / 1000) + 1000);
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.true;

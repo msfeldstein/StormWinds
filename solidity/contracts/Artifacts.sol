@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+import "hardhat/console.sol";
+
 contract Artifacts is Ownable, ERC721 {
     constructor() ERC721("StormWinds Artifacts", "STORM") {}
 
@@ -27,6 +29,7 @@ Each Helm costs 1 eth
         require(helmsConjured < totalHelms, "all helms have been conjured");
         require(msg.value >= nextHelmPrice());
         _safeMint(msg.sender, helmsConjured);
+        console.log("Conjured helm for ", msg.sender);
         helmsConjured++;
     }
 
