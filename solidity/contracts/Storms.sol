@@ -38,11 +38,11 @@ contract Storms is Ownable {
         )
     {
         return (
-            activeStormMapping["FIRE"] > block.timestamp,
-            activeStormMapping["SAND"] > block.timestamp,
-            activeStormMapping["ICE"] > block.timestamp,
-            activeStormMapping["WIND"] > block.timestamp,
-            activeStormMapping["LIGHTNING"] > block.timestamp
+            activeStormMapping["fire"] > block.timestamp,
+            activeStormMapping["sand"] > block.timestamp,
+            activeStormMapping["ice"] > block.timestamp,
+            activeStormMapping["wind"] > block.timestamp,
+            activeStormMapping["lightning"] > block.timestamp
         );
     }
 
@@ -68,11 +68,11 @@ contract Storms is Ownable {
         Artifacts artifacts = Artifacts(artifactAddress);
         require(artifacts.hasHelm(msg.sender, "fire"), "powerless");
         require(
-            compareStrings(_storm, "FIRE") ||
-                compareStrings(_storm, "SAND") ||
-                compareStrings(_storm, "ICE") ||
-                compareStrings(_storm, "WIND") ||
-                compareStrings(_storm, "LIGHTNING")
+            compareStrings(_storm, "fire") ||
+                compareStrings(_storm, "sand") ||
+                compareStrings(_storm, "ice") ||
+                compareStrings(_storm, "wind") ||
+                compareStrings(_storm, "lightning")
         );
         activeStormMapping[_storm] = _endTime;
         emit StormBegins(_storm);

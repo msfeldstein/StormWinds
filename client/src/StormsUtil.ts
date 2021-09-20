@@ -48,8 +48,5 @@ export async function summon(name: StormName) {
   );
   const signer = provider.getSigner();
   const authed = StormsContract.connect(signer);
-  await authed.summon(
-    names.indexOf(name),
-    Math.floor(Date.now() / 1000) + 1000
-  );
+  await authed.summon(name, Math.floor(Date.now() / 1000) + 1000);
 }
