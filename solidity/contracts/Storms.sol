@@ -49,10 +49,12 @@ contract Storms is Ownable {
         public
         view
         returns (bool)
-    {}
+    {
+        return activeStormMapping[_stormName] > block.timestamp;
+    }
 
     function compareStrings(string calldata a, string memory b)
-        public
+        internal
         pure
         returns (bool)
     {

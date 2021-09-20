@@ -22,7 +22,6 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface StormsInterface extends ethers.utils.Interface {
   functions: {
     "activeStorms()": FunctionFragment;
-    "compareStrings(string,string)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "stormIsActive(string)": FunctionFragment;
@@ -34,10 +33,6 @@ interface StormsInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "activeStorms",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "compareStrings",
-    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -60,10 +55,6 @@ interface StormsInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "activeStorms",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "compareStrings",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -137,12 +128,6 @@ export class Storms extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
 
-    compareStrings(
-      a: string,
-      b: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -174,12 +159,6 @@ export class Storms extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
 
-  compareStrings(
-    a: string,
-    b: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
@@ -210,12 +189,6 @@ export class Storms extends BaseContract {
     activeStorms(
       overrides?: CallOverrides
     ): Promise<[boolean, boolean, boolean, boolean, boolean]>;
-
-    compareStrings(
-      a: string,
-      b: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -253,12 +226,6 @@ export class Storms extends BaseContract {
   estimateGas: {
     activeStorms(overrides?: CallOverrides): Promise<BigNumber>;
 
-    compareStrings(
-      a: string,
-      b: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -288,12 +255,6 @@ export class Storms extends BaseContract {
 
   populateTransaction: {
     activeStorms(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    compareStrings(
-      a: string,
-      b: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
