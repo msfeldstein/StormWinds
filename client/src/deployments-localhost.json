@@ -3,7 +3,7 @@
   "chainId": "1337",
   "contracts": {
     "Artifacts": {
-      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      "address": "0x851356ae760d987E095750cCeb3bC6014560891C",
       "abi": [
         {
           "inputs": [],
@@ -183,7 +183,7 @@
             },
             {
               "internalType": "string",
-              "name": "",
+              "name": "_type",
               "type": "string"
             }
           ],
@@ -412,6 +412,49 @@
           "inputs": [
             {
               "internalType": "uint256",
+              "name": "index",
+              "type": "uint256"
+            }
+          ],
+          "name": "tokenByIndex",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "index",
+              "type": "uint256"
+            }
+          ],
+          "name": "tokenOfOwnerByIndex",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
               "name": "tokenId",
               "type": "uint256"
             }
@@ -422,6 +465,19 @@
               "internalType": "string",
               "name": "",
               "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "totalSupply",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
             }
           ],
           "stateMutability": "view",
@@ -466,7 +522,7 @@
       ]
     },
     "Storms": {
-      "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
+      "address": "0xf5059a5D33d5853360D16C683c16e67980206f36",
       "abi": [
         {
           "inputs": [
@@ -503,9 +559,9 @@
           "inputs": [
             {
               "indexed": false,
-              "internalType": "enum Storms.StormType",
-              "name": "",
-              "type": "uint8"
+              "internalType": "string",
+              "name": "storm",
+              "type": "string"
             }
           ],
           "name": "StormBegins",
@@ -586,9 +642,9 @@
         {
           "inputs": [
             {
-              "internalType": "enum Storms.StormType",
+              "internalType": "string",
               "name": "_storm",
-              "type": "uint8"
+              "type": "string"
             },
             {
               "internalType": "uint256",

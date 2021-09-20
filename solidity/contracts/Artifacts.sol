@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "hardhat/console.sol";
@@ -18,13 +19,13 @@ import "hardhat/console.sol";
 // \_/ \_/_|   \__|_|_|  \__,_|\___|\__|___/
 // Summoned by @msfeldstein
 
-contract Artifacts is Ownable, ERC721 {
+contract Artifacts is Ownable, ERC721Enumerable {
     constructor() ERC721("StormWinds Artifacts", "STORM") {}
 
     uint8 constant totalHelms = 16;
 
-    uint8 helmsConjured = 0;
-    uint256 shardsConjured = 0;
+    uint8 helmsConjured = 1; // Start at 1 to leave space for owner claim
+    uint256 shardsConjured = 1;
 
     /*
 Mints a random helm
@@ -51,12 +52,42 @@ Each Helm costs 1 eth
         return 1 ether;
     }
 
+    function compareStrings(string calldata a, string memory b)
+        internal
+        pure
+        returns (bool)
+    {
+        return (keccak256(abi.encodePacked((a))) ==
+            keccak256(abi.encodePacked((b))));
+    }
+
     function hasHelm(
         address _adventurer,
-        string calldata /* _type */
+        string calldata _type
     ) public view returns (bool) {
-        return balanceOf(_adventurer) > 0;
+        uint256 balance = balanceOf(_adventurer);
+        for (uint i = 0; i < balance; i++) {
+            uint token = tokenOfOwnerByIndex(_adventurer, i);
+            if (token == 0) {
+                return true;
+            } else if (token < 4) {
+                if (compareStrings(_type, "fire")) return true;
+            } else if (token < 7) {
+                if (compareStrings(_type, "sand")) return true;
+            } else if (token < 10) {
+                if (compareStrings(_type, "ice")) return true;
+            } else if (token < 13) {
+                if (compareStrings(_type, "wind")) return true;
+            } else if (token < 16) {
+                if (compareStrings(_type, "lightning")) return true;
+            }
+        }
+        return false;
     }
+
+    // function hasShard(address _adventurer, string calldata storm) {
+
+    // }
 
     /*
 conjureShard will mint a random shard
