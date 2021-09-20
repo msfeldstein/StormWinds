@@ -68,19 +68,19 @@ describe("Storms", function () {
     await artifacts.mintToken(10);
     // Try to activate fire
     await expectRevert(
-      storms.summon("fire", Math.floor(Date.now() / 1000) - 1000),
+      storms.summon("fire", Math.floor(Date.now() / 1000) + 1000),
       "powerless"
     );
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.false;
     expect(sand).to.be.false;
     expect(ice).to.be.false;
-    expect(wind).to.be.true;
+    expect(wind).to.be.false;
     expect(lightning).to.be.false;
     const fireActive = await storms.stormIsActive("fire");
     expect(fireActive).to.be.false;
     const windActive = await storms.stormIsActive("wind");
-    expect(windActive).to.be.true;
+    expect(windActive).to.be.false;
   });
 
   it("Activating should fail to activate in the past", async function () {

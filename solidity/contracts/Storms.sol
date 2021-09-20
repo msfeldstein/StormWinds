@@ -19,6 +19,8 @@ contract Storms is Ownable {
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     address artifactAddress;
 
+
+
     // The dates that the storms are active until
     mapping(string => uint256) activeStormMapping;
 
@@ -64,9 +66,9 @@ contract Storms is Ownable {
     }
 
     function summon(string calldata _storm, uint256 _endTime) external {
-        require(_endTime > block.timestamp);
+        require(_endTime > block.timestamp, "temporal");
         Artifacts artifacts = Artifacts(artifactAddress);
-        require(artifacts.hasHelm(msg.sender, "fire"), "powerless");
+        require(artifacts.hasHelm(msg.sender, _storm), "powerless");
         require(
             compareStrings(_storm, "fire") ||
                 compareStrings(_storm, "sand") ||
