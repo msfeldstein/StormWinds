@@ -75,9 +75,11 @@ interface StormsInterface extends ethers.utils.Interface {
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
+    "StormBegins(string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "StormBegins"): EventFragment;
 }
 
 export class Storms extends BaseContract {
@@ -221,6 +223,8 @@ export class Storms extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
+
+    StormBegins(storm?: null): TypedEventFilter<[string], { storm: string }>;
   };
 
   estimateGas: {

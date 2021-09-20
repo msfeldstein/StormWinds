@@ -6,6 +6,18 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "hardhat/console.sol";
 
+//  __ _                      __    __ _           _
+// / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
+// \ \| __/ _ \| '__| '_ ` _ \ \/  \/ / | '_ \ / _` / __|
+// _\ \ || (_) | |  | | | | | \  /\  /| | | | | (_| \__ \
+// \__/\__\___/|_|  |_| |_| |_|\/  \/ |_|_| |_|\__,_|___/
+//    _        _   _  __            _
+//   /_\  _ __| |_(_)/ _| __ _  ___| |_ ___
+//  //_\\| '__| __| | |_ / _` |/ __| __/ __|
+// /  _  \ |  | |_| |  _| (_| | (__| |_\__ \
+// \_/ \_/_|   \__|_|_|  \__,_|\___|\__|___/
+// Summoned by @msfeldstein
+
 contract Artifacts is Ownable, ERC721 {
     constructor() ERC721("StormWinds Artifacts", "STORM") {}
 

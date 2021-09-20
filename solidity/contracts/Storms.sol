@@ -15,6 +15,7 @@ import "./Artifacts.sol";
 // import "hardhat/console.sol";
 
 contract Storms is Ownable {
+    event StormBegins(string storm);
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     address artifactAddress;
 
@@ -74,6 +75,7 @@ contract Storms is Ownable {
                 compareStrings(_storm, "LIGHTNING")
         );
         activeStormMapping[_storm] = _endTime;
+        emit StormBegins(_storm);
     }
 
     function withdraw() public onlyOwner {
