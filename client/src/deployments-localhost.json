@@ -3,7 +3,7 @@
   "chainId": "1337",
   "contracts": {
     "Artifacts": {
-      "address": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
+      "address": "0x2B0d36FACD61B71CC05ab8F3D2355ec3631C0dd5",
       "abi": [
         {
           "inputs": [],
@@ -522,7 +522,7 @@
       ]
     },
     "Storms": {
-      "address": "0x9d4454B023096f34B160D6B654540c56A1F81688",
+      "address": "0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d",
       "abi": [
         {
           "inputs": [

@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 //  __ _                      __    __ _           _
 // / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
@@ -27,6 +27,13 @@ contract Artifacts is Ownable, ERC721Enumerable {
     uint8 helmsConjured = 1; // Start at 1 to leave space for owner claim
     uint256 shardsConjured = 1;
 
+    string constant FIRE = "fire";
+    string constant SAND = "sand";
+    string constant ICE = "ice";
+    string constant WIND = "wind";
+    string constant LIGHTNING = "lightning";
+
+
     /*
 Mints a random helm
 There are 3 helms for each of the storm types and one wild helm that can act on any storm
@@ -39,10 +46,9 @@ Each Helm costs 1 eth
 13,14,15 lightning
 */
     function conjureHelm() external payable {
-        require(helmsConjured < totalHelms, "all helms have been conjured");
-        require(msg.value >= nextHelmPrice(), "not enough ether tithed");
+        require(helmsConjured < totalHelms, "barren");
+        require(msg.value >= nextHelmPrice(), "gold");
         _safeMint(msg.sender, helmsConjured);
-        console.log("Conjured helm for ", msg.sender);
         helmsConjured++;
     }
 
@@ -57,8 +63,8 @@ Each Helm costs 1 eth
         pure
         returns (bool)
     {
-        return (keccak256(abi.encodePacked((a))) ==
-            keccak256(abi.encodePacked((b))));
+        return (keccak256(abi.encode((a))) ==
+            keccak256(abi.encode((b))));
     }
 
     function hasHelm(
@@ -68,19 +74,18 @@ Each Helm costs 1 eth
         uint256 balance = balanceOf(_adventurer);
         for (uint i = 0; i < balance; i++) {
             uint token = tokenOfOwnerByIndex(_adventurer, i);
-            console.log("Checking token", token);
             if (token == 0) {
                 return true;
             } else if (token < 4) {
-                if (compareStrings(_type, "fire")) return true;
+                if (compareStrings(_type, FIRE)) return true;
             } else if (token < 7) {
-                if (compareStrings(_type, "sand")) return true;
+                if (compareStrings(_type, SAND)) return true;
             } else if (token < 10) {
-                if (compareStrings(_type, "ice")) return true;
+                if (compareStrings(_type, ICE)) return true;
             } else if (token < 13) {
-                if (compareStrings(_type, "wind")) return true;
+                if (compareStrings(_type, WIND)) return true;
             } else if (token < 16) {
-                if (compareStrings(_type, "lightning")) return true;
+                if (compareStrings(_type, LIGHTNING)) return true;
             }
         }
         return false;
@@ -106,11 +111,8 @@ while id 102 would be a wild shard since 102 % 6 == 0
 shard IDs start after all the ids available for helms
 */
     function conjureShard() external payable {
-        require(helmsConjured < 1000, "all shards have been conjured");
-        require(
-            msg.value >= nextShardPrice(),
-            "not enough ether to conjure a shard"
-        );
+        require(shardsConjured < 1000, "barren");
+        require(msg.value >= nextShardPrice(), "gold");
         _safeMint(msg.sender, totalHelms + shardsConjured);
         shardsConjured++;
     }
