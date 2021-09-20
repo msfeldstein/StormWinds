@@ -57,7 +57,19 @@ describe("Storms", function () {
 
   it("Activating should fail to activate in the past", async function () {
     await expectRevert.unspecified(
-      storms.summon(0, Math.floor(Date.now() / 1000) - 1000)
+      storms.summon("FIRE", Math.floor(Date.now() / 1000) - 1000)
+    );
+    const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
+    expect(fire).to.be.false;
+    expect(sand).to.be.false;
+    expect(ice).to.be.false;
+    expect(wind).to.be.false;
+    expect(lightning).to.be.false;
+  });
+
+  it("Activating should fail with an unknown storm type", async function () {
+    await expectRevert.unspecified(
+      storms.summon("FRIENDSHIP", Math.floor(Date.now() / 1000) + 1000)
     );
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
     expect(fire).to.be.false;
