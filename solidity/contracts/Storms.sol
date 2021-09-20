@@ -10,6 +10,7 @@ pragma solidity ^0.8.0;
 //
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Artifacts.sol";
 
 // import "hardhat/console.sol";
 
@@ -54,12 +55,10 @@ contract Storms is Ownable {
 
     function summon(StormType _storm, uint256 _endTime) external {
         require(_endTime > block.timestamp);
+        Artifacts artifacts = Artifacts(artifactAddress);
+        require(artifacts.hasHelm(msg.sender, "fire"), "powerless");
         activeStormMapping[uint8(_storm)] = _endTime;
         emit StormBegins(_storm);
-    }
-
-    function pray(StormType _storm) external {
-        //sdfa
     }
 
     function withdraw() public onlyOwner {

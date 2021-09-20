@@ -27,7 +27,7 @@ Each Helm costs 1 eth
 */
     function conjureHelm() external payable {
         require(helmsConjured < totalHelms, "all helms have been conjured");
-        require(msg.value >= nextHelmPrice());
+        require(msg.value >= nextHelmPrice(), "not enough ether tithed");
         _safeMint(msg.sender, helmsConjured);
         console.log("Conjured helm for ", msg.sender);
         helmsConjured++;

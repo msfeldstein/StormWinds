@@ -3,7 +3,7 @@
   "chainId": "1337",
   "contracts": {
     "Artifacts": {
-      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
       "abi": [
         {
           "inputs": [],
@@ -466,7 +466,7 @@
       ]
     },
     "Storms": {
-      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
+      "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
       "abi": [
         {
           "inputs": [
@@ -555,19 +555,6 @@
             }
           ],
           "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "enum Storms.StormType",
-              "name": "_storm",
-              "type": "uint8"
-            }
-          ],
-          "name": "pray",
-          "outputs": [],
-          "stateMutability": "nonpayable",
           "type": "function"
         },
         {
