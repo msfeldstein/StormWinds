@@ -1,9 +1,14 @@
 // //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+
+import './IERC2981Royalties.sol';
+import './ERC2981ContractWideRoyalties.sol';
 
 // import "hardhat/console.sol";
 
@@ -19,8 +24,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // \_/ \_/_|   \__|_|_|  \__,_|\___|\__|___/
 // Summoned by @msfeldstein
 
-contract Artifacts is Ownable, ERC721Enumerable {
-    constructor() ERC721("StormWinds Artifacts", "STORM") {}
+contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
+    constructor() ERC721("StormWinds Artifacts", "STORM") {
+        _setRoyalties(msg.sender, 1000);
+    }
 
     uint8 constant totalHelms = 16;
 
@@ -124,5 +131,21 @@ shard IDs start after all the ids available for helms
     function ownerClaim() external onlyOwner {
         _safeMint(msg.sender, 0); // Enlil Helm
         _safeMint(msg.sender, totalHelms); // Enlil Shard
+    }
+
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return
+            interfaceId == type(IERC2981Royalties).interfaceId  ||
+            super.supportsInterface(interfaceId);
+    }
+
+    /// @dev Sets token royalties
+    /// @param recipient recipient of the royalties
+    /// @param value percentage (using 2 decimals - 10000 = 100, 0 = 0)
+    function setRoyalties(address recipient, uint256 value) public onlyOwner {
+        _setRoyalties(recipient, value);
     }
 }

@@ -106,4 +106,11 @@ describe("Storms", function () {
     expect(wind).to.be.false;
     expect(lightning).to.be.false;
   });
+
+  it("Supports royalties", async function () {
+    const supports = await artifacts.supportsInterface(0x2a55205a);
+    expect(supports).to.be.true;
+    const [receiver, amount] = await artifacts.royaltyInfo(0, 10000);
+    expect(amount).to.eq(1000);
+  });
 });

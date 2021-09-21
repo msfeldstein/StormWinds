@@ -1,3 +1,4 @@
+import { ethers } from "hardhat";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 module.exports = async (hre: HardhatRuntimeEnvironment) => {
