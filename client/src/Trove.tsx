@@ -8,13 +8,22 @@ export default function Trove() {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const provider = getProvider();
+    console.log("Provider", provider);
     const ArtifactsContract = Artifacts__factory.connect(
       deployments.contracts.Artifacts.address,
       provider
     );
 
     const load = async () => {
-      const tokenIds = await ArtifactsContract.myTrove();
+      // @ts-ignore
+      await window.ethereum.enable();
+      // @ts-ignore
+      console.log("Asking for trove", window.ethereum.selectedAddress);
+      const tokenIds = await ArtifactsContract.troveFor(
+        // @ts-ignore
+        window.ethereum.selectedAddress
+      );
+      console.log("Asked for trove");
       const artifacts = [];
       for (var i = 0; i < tokenIds.length; i++) {
         const tokenURI = await ArtifactsContract.tokenURI(tokenIds[i]);

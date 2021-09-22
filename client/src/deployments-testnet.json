@@ -3,7 +3,7 @@
   "chainId": "4",
   "contracts": {
     "Artifacts": {
-      "address": "0x9CF1a6FF621Cb4B7676DBa01203dFe7f60a11b4a",
+      "address": "0xc4f2bfA9f6D4A7cf2F3FA96429745a606c1CcC9D",
       "abi": [
         {
           "inputs": [],
@@ -332,19 +332,6 @@
         },
         {
           "inputs": [],
-          "name": "myTrove",
-          "outputs": [
-            {
-              "internalType": "uint256[]",
-              "name": "",
-              "type": "uint256[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
           "name": "name",
           "outputs": [
             {
@@ -660,11 +647,30 @@
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_adventurer",
+              "type": "address"
+            }
+          ],
+          "name": "troveFor",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
         }
       ]
     },
     "Storms": {
-      "address": "0xfE896560848c299Bdf39d32Ec54246879BB14f05",
+      "address": "0x3ff9ed0cf0AA2fD53031aE5bFAd5F2d0D0419E6f",
       "abi": [
         {
           "inputs": [

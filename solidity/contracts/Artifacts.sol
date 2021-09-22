@@ -114,11 +114,15 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         emit ArtifactConjured();
     }
 
-    function myTrove() public view returns (uint256[] memory) {
-        uint256 balance = balanceOf(msg.sender);
+    function troveFor(address _adventurer)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        uint256 balance = balanceOf(_adventurer);
         uint256[] memory trove = new uint256[](balance);
         for (uint256 i = 0; i < balance; i++) {
-            trove[i] = tokenOfOwnerByIndex(msg.sender, i);
+            trove[i] = tokenOfOwnerByIndex(_adventurer, i);
         }
         return trove;
     }

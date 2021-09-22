@@ -35,7 +35,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "hasHelm(address,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "makeAvailable(uint256)": FunctionFragment;
-    "myTrove()": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerClaim()": FunctionFragment;
@@ -53,6 +52,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "troveFor(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -104,7 +104,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     functionFragment: "makeAvailable",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "myTrove", values?: undefined): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -164,6 +163,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
+  encodeFunctionData(functionFragment: "troveFor", values: [string]): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -202,7 +202,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     functionFragment: "makeAvailable",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "myTrove", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerClaim", data: BytesLike): Result;
@@ -253,6 +252,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "troveFor", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -368,8 +368,6 @@ export class Artifacts extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    myTrove(overrides?: CallOverrides): Promise<[BigNumber[]]>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
@@ -458,6 +456,11 @@ export class Artifacts extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    troveFor(
+      _adventurer: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
   };
 
   approve(
@@ -508,8 +511,6 @@ export class Artifacts extends BaseContract {
     _max: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  myTrove(overrides?: CallOverrides): Promise<BigNumber[]>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -594,6 +595,11 @@ export class Artifacts extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  troveFor(
+    _adventurer: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   callStatic: {
     approve(
       to: string,
@@ -638,8 +644,6 @@ export class Artifacts extends BaseContract {
     ): Promise<boolean>;
 
     makeAvailable(_max: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    myTrove(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -719,6 +723,11 @@ export class Artifacts extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    troveFor(
+      _adventurer: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
   };
 
   filters: {
@@ -816,8 +825,6 @@ export class Artifacts extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    myTrove(overrides?: CallOverrides): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -904,6 +911,11 @@ export class Artifacts extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    troveFor(
+      _adventurer: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -968,8 +980,6 @@ export class Artifacts extends BaseContract {
       _max: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    myTrove(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1056,6 +1066,11 @@ export class Artifacts extends BaseContract {
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    troveFor(
+      _adventurer: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

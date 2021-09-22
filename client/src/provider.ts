@@ -3,6 +3,7 @@ import StormsData from "./deployment";
 
 export default function getProvider() {
   const hexChainId = "0x" + parseInt(StormsData.chainId).toString(16);
+  console.log("Hex chain id", hexChainId);
   let provider: ethers.providers.Provider;
   // @ts-ignore
   if (window.ethereum && window.ethereum.chainId === hexChainId) {
@@ -22,6 +23,7 @@ export default function getProvider() {
       provider = new ethers.providers.JsonRpcProvider();
     } else {
       provider = ethers.getDefaultProvider(StormsData.name);
+      console.log("Finding provider for ", StormsData.name, provider);
     }
     console.log("Using provider", provider);
   }
