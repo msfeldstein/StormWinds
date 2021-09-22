@@ -3,7 +3,7 @@
   "chainId": "4",
   "contracts": {
     "Artifacts": {
-      "address": "0x91286d351fC27F489Ae32897DEc095E342BF0c0c",
+      "address": "0x9CF1a6FF621Cb4B7676DBa01203dFe7f60a11b4a",
       "abi": [
         {
           "inputs": [],
@@ -58,6 +58,12 @@
             }
           ],
           "name": "ApprovalForAll",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [],
+          "name": "ArtifactConjured",
           "type": "event"
         },
         {
@@ -187,6 +193,45 @@
           "type": "function"
         },
         {
+          "inputs": [],
+          "name": "getCurrentAvailability",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getCurrentConjured",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getCurrentPrice",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
           "inputs": [
             {
               "internalType": "uint256",
@@ -283,6 +328,19 @@
           "name": "makeAvailable",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "myTrove",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            }
+          ],
+          "stateMutability": "view",
           "type": "function"
         },
         {
@@ -606,7 +664,7 @@
       ]
     },
     "Storms": {
-      "address": "0x621BA7e2c650e8f0f6513d2273eAd7267B3d4395",
+      "address": "0xfE896560848c299Bdf39d32Ec54246879BB14f05",
       "abi": [
         {
           "inputs": [
