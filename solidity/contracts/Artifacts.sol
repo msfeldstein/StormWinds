@@ -165,7 +165,13 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
                         name,
                         '", "description": "StormWinds artifacts are used to control the storms throughout the realms.", "image": "data:image/svg+xml;base64,',
                         Base64.encode(bytes(output)),
-                        '"}'
+                        '", "attributes": [{"classification": "',
+                        nameParts[0],
+                        '", "storm": "',
+                        nameParts[2],
+                        '", "object": "',
+                        nameParts[4],
+                        '"}]}'
                     )
                 )
             )
