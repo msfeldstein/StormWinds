@@ -7,6 +7,7 @@ export default function Conjure() {
   const [currentConjured, setCurrentConjured] = useState(0);
   const [currentAvailable, setCurrentAvailable] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [conjuring, setConjuring] = useState(false);
   useEffect(() => {
     const provider = getProvider();
     const ArtifactsContract = Artifacts__factory.connect(
@@ -26,6 +27,7 @@ export default function Conjure() {
   }, []);
 
   async function conjure() {
+    setConjuring(true);
     const provider = getProvider() as ethers.providers.JsonRpcProvider;
     const ArtifactsContract = Artifacts__factory.connect(
       deployments.contracts.Artifacts.address,
@@ -34,18 +36,22 @@ export default function Conjure() {
     const price = await ArtifactsContract.getCurrentPrice();
     const response = await ArtifactsContract.conjureArtifact({ value: price });
     await response.wait();
-    await new Promise((res) => setTimeout(res, 4000));
+    // await new Promise((res) => setTimeout(res, 4000));
+    setConjuring(false);
   }
   if (!loaded) {
     return <div>Seeking...</div>;
   }
+  const button = conjuring ? (
+    <button disabled>Conjuring...</button>
+  ) : (
+    <button onClick={conjure}>Conjure</button>
+  );
   return (
     <div>
       <div>
         {currentAvailable - currentConjured} artifacts currently scattered
-        <div>
-          <button onClick={conjure}>Conjure</button>
-        </div>
+        <div>{button}</div>
       </div>
     </div>
   );
