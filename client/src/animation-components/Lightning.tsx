@@ -40,15 +40,9 @@ export default function LightningAnimation() {
     const sheet = proj.sheet("scene");
 
     const lightningProps = sheet.object("Lightning", {
-      strike1: t.number(0, {
-        range: [0, 1],
-      }),
-      strike2: t.number(0, {
-        range: [0, 1],
-      }),
-      whiteout: t.number(0, {
-        range: [0, 1],
-      }),
+      strike1: 0,
+      strike2: 0,
+      whiteout: 0,
     });
 
     proj.ready.then(() => {
@@ -56,7 +50,6 @@ export default function LightningAnimation() {
     });
     setValues(lightningProps);
   }, []);
-  let frameSkip = 0;
   const render = useCallback(
     (canvas: HTMLCanvasElement, opts) => {
       if (!values) return;
