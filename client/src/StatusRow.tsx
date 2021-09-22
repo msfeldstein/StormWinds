@@ -16,14 +16,9 @@ export default function StatusRow({ name, status }: StatusRowProps) {
     summon(name);
   };
 
-  const prayForStorm = () => {
-    console.log("Pray");
-  };
   return (
     <div className={`${name} StatusRow`}>
       <button onClick={summonStorm}>Summon</button>
-      {" | "}
-      <button onClick={prayForStorm}>Pray</button>
       {" | "}
       {name} storm {statusStr}
     </div>

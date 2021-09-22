@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+import "./Base64.sol";
 import "./IERC2981Royalties.sol";
 import "./ERC2981ContractWideRoyalties.sol";
 
@@ -25,20 +26,22 @@ import "./ERC2981ContractWideRoyalties.sol";
 // Summoned by @msfeldstein
 
 contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
+    event ArtifactConjured();
+
     constructor() ERC721("StormWinds Artifacts", "STORM") {
         _setRoyalties(msg.sender, 1000);
     }
 
-    uint8 constant totalHelms = 16;
+    uint256 constant MAX_PUBLIC_MINT = 4000;
+    uint256 currentAvailability = 200;
+    uint256 currentConjured = 1; // Leave space for owner to claim 0
+    uint256 currentPrice = .12 ether;
 
-    uint8 helmsConjured = 1; // Start at 1 to leave space for owner claim
-    uint256 shardsConjured = 1;
-
-    string constant FIRE = "fire";
-    string constant SAND = "sand";
-    string constant ICE = "ice";
-    string constant WIND = "wind";
-    string constant LIGHTNING = "lightning";
+    string constant FIRE = "Fire";
+    string constant SAND = "Sand";
+    string constant ICE = "Ice";
+    string constant WIND = "Wind";
+    string constant LIGHTNING = "Lightning";
 
     string[] private classification = [
         "Ancient",
@@ -48,29 +51,148 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         "Undead",
         "Bright",
         "Dark",
-        "Void"
+        "Void",
+        "Giants",
+        "Enlil"
     ];
 
-    // Mints a random helm
-    // There are 3 helms for each of the storm types and one wild helm that can act on any storm
-    // Each Helm costs 1 eth
-    // 0: Helm of Enlil (acts on any storm type)
-    // 1,2,3 fire
-    // 4,5,6 sand
-    // 7,8,9 ice
-    // 10,11,12 wind
-    // 13,14,15 lightning
-    function conjureHelm() external payable {
-        require(helmsConjured < totalHelms, "barren");
-        require(msg.value >= nextHelmPrice(), "gold");
-        _safeMint(msg.sender, helmsConjured);
-        helmsConjured++;
+    string[] private storm = [FIRE, SAND, ICE, WIND, LIGHTNING];
+
+    string[] private gear = [
+        "Helm",
+        "Shard",
+        "Plate",
+        "Sword",
+        "Gem",
+        "Seed",
+        "Amulet",
+        "Crystal"
+    ];
+
+    function random(string memory input) internal pure returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(input)));
     }
 
-    function nextHelmPrice() public pure returns (uint256) {
-        // 1e18 is wei->ether.  Is there a more robust way to write this?
-        // return helmsConjured * 1e18;
-        return 1 ether;
+    function pluck(
+        uint256 tokenId,
+        string memory keyPrefix,
+        string[] memory sourceArray
+    ) internal pure returns (string memory) {
+        uint256 rand = random(
+            string(abi.encodePacked(keyPrefix, toString(tokenId)))
+        );
+
+        string memory output = string(
+            abi.encodePacked(sourceArray[rand % sourceArray.length])
+        );
+
+        return output;
+    }
+
+    function getClassification(uint256 tokenId)
+        public
+        view
+        returns (string memory)
+    {
+        return pluck(tokenId, "CLASSIFICATION", classification);
+    }
+
+    function getStorm(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "STORM", storm);
+    }
+
+    function getGear(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "GEAR", gear);
+    }
+
+    function conjureArtifact() public payable {
+        require(currentConjured < currentAvailability, "dormancy");
+        require(msg.value >= currentPrice, "destitution");
+        uint256 tokenId = currentConjured;
+        currentConjured++;
+        _safeMint(msg.sender, tokenId);
+        emit ArtifactConjured();
+    }
+
+    function myTrove() public view returns (uint256[] memory) {
+        uint256 balance = balanceOf(msg.sender);
+        uint256[] memory trove = new uint256[](balance);
+        for (uint256 i = 0; i < balance; i++) {
+            trove[i] = tokenOfOwnerByIndex(msg.sender, i);
+        }
+        return trove;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        string[5] memory nameParts;
+        nameParts[0] = getClassification(tokenId);
+        nameParts[1] = " ";
+        nameParts[2] = getStorm(tokenId);
+        nameParts[3] = " ";
+        nameParts[4] = getGear(tokenId);
+        string memory name = string(
+            abi.encodePacked(
+                nameParts[0],
+                nameParts[1],
+                nameParts[2],
+                nameParts[3],
+                nameParts[4]
+            )
+        );
+
+        string
+            memory prefix = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
+        string memory suffix = "</text></svg>";
+
+        string memory output = string(abi.encodePacked(prefix, name, suffix));
+
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name": "Artifact #',
+                        toString(tokenId),
+                        ": ",
+                        name,
+                        '", "description": "StormWinds artifacts are used to control the storms throughout the realms.", "image": "data:image/svg+xml;base64,',
+                        Base64.encode(bytes(output)),
+                        '"}'
+                    )
+                )
+            )
+        );
+        output = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
+
+        return output;
+    }
+
+    function toString(uint256 value) internal pure returns (string memory) {
+        // Inspired by OraclizeAPI's implementation - MIT license
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (value != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+            value /= 10;
+        }
+        return string(buffer);
     }
 
     function compareStrings(string calldata a, string memory b)
@@ -106,37 +228,14 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         return false;
     }
 
-    // function hasShard(address _adventurer, string calldata storm) {
-
-    // }
-
-    // conjureShard will mint a random shard
-    // each shard ID determines what storm it acts on based on its modulo of 6
-    // id % 6 = 0: enlil (wild, acts on any storm type)
-    // id % 6 = 1: fire
-    // id % 6 = 2: sand
-    // id % 6 = 3: ice
-    // id % 6 = 4: wind
-    // id % 6 = 5: lightning
-
-    // so the shard with id 97 would be a fire shard because 97 % 6 == 1,
-    // while id 102 would be a wild shard since 102 % 6 == 0
-
-    // shard IDs start after all the ids available for helms
-    function conjureShard() external payable {
-        require(shardsConjured < 1000, "barren");
-        require(msg.value >= nextShardPrice(), "gold");
-        _safeMint(msg.sender, totalHelms + shardsConjured);
-        shardsConjured++;
-    }
-
-    function nextShardPrice() public pure returns (uint256) {
-        return 0.2 ether;
+    function makeAvailable(uint256 _max) external onlyOwner {
+        require(_max <= MAX_PUBLIC_MINT);
+        require(_max > currentAvailability);
+        currentAvailability = _max;
     }
 
     function ownerClaim() external onlyOwner {
         _safeMint(msg.sender, 0); // Enlil Helm
-        _safeMint(msg.sender, totalHelms); // Enlil Shard
     }
 
     /**
@@ -159,5 +258,17 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     /// @param value percentage (using 2 decimals - 10000 = 100, 0 = 0)
     function setRoyalties(address recipient, uint256 value) public onlyOwner {
         _setRoyalties(recipient, value);
+    }
+
+    function getCurrentPrice() external view returns (uint256) {
+        return currentPrice;
+    }
+
+    function getCurrentAvailability() external view returns (uint256) {
+        return currentAvailability;
+    }
+
+    function getCurrentConjured() external view returns (uint256) {
+        return currentConjured;
     }
 }

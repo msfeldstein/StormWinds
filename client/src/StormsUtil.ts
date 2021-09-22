@@ -20,8 +20,10 @@ export type StormStatuses = {
 };
 
 export function toNamedMap(fromContract: Array<boolean>): StormStatuses {
+  console.log("FromContract", fromContract);
   const obj: { [key: string]: StormStatus } = {};
   names.forEach((name, i) => {
+    name = name.toLowerCase();
     obj[name] = fromContract[i] ? StormStatus.ACTIVE : StormStatus.INACTIVE;
     if (document.location.hash.includes(name)) obj[name] = StormStatus.ACTIVE;
   });
@@ -40,6 +42,7 @@ export function defaultStatuses(): StormStatuses {
 
 export async function summon(name: StormName) {
   console.log("Summon ", name);
+
   // @ts-ignore
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const StormsContract = Storms__factory.connect(
@@ -48,5 +51,7 @@ export async function summon(name: StormName) {
   );
   const signer = provider.getSigner();
   const authed = StormsContract.connect(signer);
-  await authed.summon(name, Math.floor(Date.now() / 1000) + 1000);
+  const capped = name[0].toUpperCase() + name.slice(1);
+  console.log("Capped", capped);
+  await authed.summon(capped, Math.floor(Date.now() / 1000) + 1000);
 }

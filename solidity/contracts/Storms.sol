@@ -12,14 +12,12 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Artifacts.sol";
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract Storms is Ownable {
     event StormBegins(string storm);
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     address artifactAddress;
-
-
 
     // The dates that the storms are active until
     mapping(string => uint256) activeStormMapping;
@@ -40,11 +38,11 @@ contract Storms is Ownable {
         )
     {
         return (
-            activeStormMapping["fire"] > block.timestamp,
-            activeStormMapping["sand"] > block.timestamp,
-            activeStormMapping["ice"] > block.timestamp,
-            activeStormMapping["wind"] > block.timestamp,
-            activeStormMapping["lightning"] > block.timestamp
+            activeStormMapping["Fire"] > block.timestamp,
+            activeStormMapping["Sand"] > block.timestamp,
+            activeStormMapping["Ice"] > block.timestamp,
+            activeStormMapping["Wind"] > block.timestamp,
+            activeStormMapping["Lightning"] > block.timestamp
         );
     }
 
@@ -67,15 +65,26 @@ contract Storms is Ownable {
 
     function summon(string calldata _storm, uint256 _endTime) external {
         require(_endTime > block.timestamp, "temporal");
-        Artifacts artifacts = Artifacts(artifactAddress);
-        require(artifacts.hasHelm(msg.sender, _storm), "powerless");
         require(
-            compareStrings(_storm, "fire") ||
-                compareStrings(_storm, "sand") ||
-                compareStrings(_storm, "ice") ||
-                compareStrings(_storm, "wind") ||
-                compareStrings(_storm, "lightning")
+            compareStrings(_storm, "Fire") ||
+                compareStrings(_storm, "Sand") ||
+                compareStrings(_storm, "Ice") ||
+                compareStrings(_storm, "Wind") ||
+                compareStrings(_storm, "Lightning"),
+            "mystery"
         );
+        Artifacts artifacts = Artifacts(artifactAddress);
+        bool canSummon = false;
+        uint256 tokenBalance = artifacts.balanceOf(msg.sender);
+        for (uint256 i = 0; i < tokenBalance; i++) {
+            uint256 tokenId = artifacts.tokenOfOwnerByIndex(msg.sender, i);
+            string memory stormForToken = artifacts.getStorm(tokenId);
+            if (compareStrings(_storm, stormForToken)) {
+                canSummon = true;
+            }
+        }
+        require(canSummon, "powerless");
+        console.log("Summoning", _storm, _endTime);
         activeStormMapping[_storm] = _endTime;
         emit StormBegins(_storm);
     }

@@ -42,12 +42,18 @@ const config: HardhatUserConfig = {
         "0xf4947795e471b43fe86b0f8e1b86eadaab993a61d769b5ef808f87cac74f171b",
       ],
     },
+    rinkeby: {
+      url: "https://eth-rinkeby.alchemyapi.io/v2/AA2aoABOa_0DfSIpiHlxeLKq7NL1czOv",
+      accounts: [
+        "0x552a4f25e41a0d722aa3d9c6ef69da6ee0ebdf28d9284d9714c0c7f32efb04b9",
+      ],
+    },
   },
   namedAccounts: {
     deployer: {
       default: 0, // here this will by default take the first account as deployer
       1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
-      4: "SpecificAddress", // but for rinkeby it will be a specific address
+      4: 0, // but for rinkeby it will be a specific address
     },
   },
   etherscan: {

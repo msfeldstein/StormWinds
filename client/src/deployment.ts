@@ -9,6 +9,8 @@ const deployment =
 console.log("NODE_ENV", process.env.NODE_ENV);
 console.log("Deployment", deployment);
 
-const prefix = deployment.name === "ropsten" ? "ropsten." : "";
+let prefix = "";
+if (deployment.name === "ropsten") prefix = "ropsten.";
+if (deployment.name === "rinkeby") prefix = "rinkeby.";
 export const etherscan = `https://${prefix}etherscan.io/address/${deployment.contracts.Storms.address}`;
 export default deployment;

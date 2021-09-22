@@ -9,34 +9,15 @@ import StormsData from "./deployment";
 import { ethers } from "ethers";
 import ActiveAnimation from "./animation-components/ActiveAnimation";
 import AllAnimations from "./animation-components/AllAnimations";
+import Conjure from "./Conjure";
+import getProvider from "./provider";
+import Trove from "./Trove";
 
 function App() {
   const [storms, setStorms] = useState(defaultStatuses());
   useEffect(() => {
     async function effect() {
-      const hexChainId = "0x" + parseInt(StormsData.chainId).toString(16);
-      let provider: ethers.providers.Provider;
-      // @ts-ignore
-      if (window.ethereum && window.ethereum.chainId === hexChainId) {
-        console.log("Connecting to metamask");
-        // @ts-ignore
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-      } else {
-        console.log(
-          "No appropriate ethereum provider for chainId ",
-          hexChainId,
-          // @ts-ignore
-          window.ethereum,
-          // @ts-ignore
-          window.ethereum && window.ethereum.chainId
-        );
-        if (StormsData.name === "localhost") {
-          provider = new ethers.providers.JsonRpcProvider();
-        } else {
-          provider = ethers.getDefaultProvider(StormsData.name);
-        }
-        console.log("Using provider", provider);
-      }
+      const provider = getProvider();
       const StormsContract = Storms__factory.connect(
         StormsData.contracts.Storms.address,
         provider
@@ -56,6 +37,8 @@ function App() {
         <div className="Title">Stormwinds</div>
         <ActiveStorm storms={storms} />
         <AllStorms storms={storms} />
+        <Conjure />
+        <Trove />
         <Information />
       </div>
       <ActiveAnimation storms={storms} />

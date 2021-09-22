@@ -24,15 +24,20 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "conjureHelm()": FunctionFragment;
-    "conjureShard()": FunctionFragment;
+    "conjureArtifact()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getClassification(uint256)": FunctionFragment;
+    "getCurrentAvailability()": FunctionFragment;
+    "getCurrentConjured()": FunctionFragment;
+    "getCurrentPrice()": FunctionFragment;
+    "getGear(uint256)": FunctionFragment;
+    "getStorm(uint256)": FunctionFragment;
     "hasHelm(address,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "makeAvailable(uint256)": FunctionFragment;
     "mintToken(uint256)": FunctionFragment;
+    "myTrove()": FunctionFragment;
     "name()": FunctionFragment;
-    "nextHelmPrice()": FunctionFragment;
-    "nextShardPrice()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerClaim()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -57,15 +62,35 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "conjureHelm",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "conjureShard",
+    functionFragment: "conjureArtifact",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getClassification",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentAvailability",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentConjured",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCurrentPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGear",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getStorm",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -77,18 +102,15 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "makeAvailable",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "mintToken",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "myTrove", values?: undefined): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "nextHelmPrice",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "nextShardPrice",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerClaim",
@@ -151,32 +173,43 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "conjureHelm",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "conjureShard",
+    functionFragment: "conjureArtifact",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getClassification",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentAvailability",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentConjured",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getGear", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getStorm", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasHelm", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "makeAvailable",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mintToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "myTrove", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "nextHelmPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "nextShardPrice",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerClaim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -230,12 +263,14 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "ArtifactConjured()": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ArtifactConjured"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -292,15 +327,32 @@ export class TestArtifacts extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    conjureHelm(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    conjureShard(
+    conjureArtifact(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getClassification(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getCurrentAvailability(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getCurrentConjured(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getCurrentPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getGear(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -317,16 +369,19 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    makeAvailable(
+      _max: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     mintToken(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    myTrove(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
-
-    nextHelmPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    nextShardPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -424,11 +479,7 @@ export class TestArtifacts extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  conjureHelm(
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  conjureShard(
+  conjureArtifact(
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -436,6 +487,21 @@ export class TestArtifacts extends BaseContract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getClassification(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getCurrentAvailability(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getCurrentConjured(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getCurrentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   hasHelm(
     _adventurer: string,
@@ -449,16 +515,19 @@ export class TestArtifacts extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  makeAvailable(
+    _max: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   mintToken(
     _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  myTrove(overrides?: CallOverrides): Promise<BigNumber[]>;
+
   name(overrides?: CallOverrides): Promise<string>;
-
-  nextHelmPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-  nextShardPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -550,14 +619,27 @@ export class TestArtifacts extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    conjureHelm(overrides?: CallOverrides): Promise<void>;
-
-    conjureShard(overrides?: CallOverrides): Promise<void>;
+    conjureArtifact(overrides?: CallOverrides): Promise<void>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getClassification(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getCurrentAvailability(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCurrentConjured(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCurrentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     hasHelm(
       _adventurer: string,
@@ -571,13 +653,13 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    makeAvailable(_max: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
     mintToken(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
+    myTrove(overrides?: CallOverrides): Promise<BigNumber[]>;
+
     name(overrides?: CallOverrides): Promise<string>;
-
-    nextHelmPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    nextShardPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -676,6 +758,8 @@ export class TestArtifacts extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    ArtifactConjured(): TypedEventFilter<[], {}>;
+
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -703,15 +787,32 @@ export class TestArtifacts extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    conjureHelm(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    conjureShard(
+    conjureArtifact(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getClassification(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getCurrentAvailability(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCurrentConjured(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCurrentPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getGear(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -728,16 +829,19 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    makeAvailable(
+      _max: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     mintToken(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    myTrove(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
-
-    nextHelmPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    nextShardPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -837,15 +941,36 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    conjureHelm(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    conjureShard(
+    conjureArtifact(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getClassification(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCurrentAvailability(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCurrentConjured(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getCurrentPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getGear(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -862,16 +987,19 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    makeAvailable(
+      _max: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     mintToken(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    myTrove(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    nextHelmPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    nextShardPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
