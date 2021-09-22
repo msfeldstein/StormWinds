@@ -1,3 +1,7 @@
 {
-  "solidity.packageDefaultDependenciesDirectory": "solidity/node_modules"
+  "solidity.packageDefaultDependenciesDirectory": "solidity/node_modules",
+  "prettier.configPath": ".prettierrc",
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  }
 }

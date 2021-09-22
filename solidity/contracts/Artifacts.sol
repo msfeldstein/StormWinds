@@ -7,8 +7,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import './IERC2981Royalties.sol';
-import './ERC2981ContractWideRoyalties.sol';
+import "./IERC2981Royalties.sol";
+import "./ERC2981ContractWideRoyalties.sol";
 
 // import "hardhat/console.sol";
 
@@ -40,18 +40,26 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     string constant WIND = "wind";
     string constant LIGHTNING = "lightning";
 
+    string[] private classification = [
+        "Ancient",
+        "Runic",
+        "Eldritch",
+        "Loveless",
+        "Undead",
+        "Bright",
+        "Dark",
+        "Void"
+    ];
 
-    /*
-Mints a random helm
-There are 3 helms for each of the storm types and one wild helm that can act on any storm
-Each Helm costs 1 eth
-0: Helm of Enlil (acts on any storm type)
-1,2,3 fire
-4,5,6 sand
-7,8,9 ice
-10,11,12 wind
-13,14,15 lightning
-*/
+    // Mints a random helm
+    // There are 3 helms for each of the storm types and one wild helm that can act on any storm
+    // Each Helm costs 1 eth
+    // 0: Helm of Enlil (acts on any storm type)
+    // 1,2,3 fire
+    // 4,5,6 sand
+    // 7,8,9 ice
+    // 10,11,12 wind
+    // 13,14,15 lightning
     function conjureHelm() external payable {
         require(helmsConjured < totalHelms, "barren");
         require(msg.value >= nextHelmPrice(), "gold");
@@ -70,17 +78,17 @@ Each Helm costs 1 eth
         pure
         returns (bool)
     {
-        return (keccak256(abi.encode((a))) ==
-            keccak256(abi.encode((b))));
+        return (keccak256(abi.encode((a))) == keccak256(abi.encode((b))));
     }
 
-    function hasHelm(
-        address _adventurer,
-        string calldata _type
-    ) public view returns (bool) {
+    function hasHelm(address _adventurer, string calldata _type)
+        public
+        view
+        returns (bool)
+    {
         uint256 balance = balanceOf(_adventurer);
-        for (uint i = 0; i < balance; i++) {
-            uint token = tokenOfOwnerByIndex(_adventurer, i);
+        for (uint256 i = 0; i < balance; i++) {
+            uint256 token = tokenOfOwnerByIndex(_adventurer, i);
             if (token == 0) {
                 return true;
             } else if (token < 4) {
@@ -102,21 +110,19 @@ Each Helm costs 1 eth
 
     // }
 
-    /*
-conjureShard will mint a random shard
-each shard ID determines what storm it acts on based on its modulo of 6
-id % 6 = 0: enlil (wild, acts on any storm type)
-id % 6 = 1: fire
-id % 6 = 2: sand
-id % 6 = 3: ice
-id % 6 = 4: wind
-id % 6 = 5: lightning
+    // conjureShard will mint a random shard
+    // each shard ID determines what storm it acts on based on its modulo of 6
+    // id % 6 = 0: enlil (wild, acts on any storm type)
+    // id % 6 = 1: fire
+    // id % 6 = 2: sand
+    // id % 6 = 3: ice
+    // id % 6 = 4: wind
+    // id % 6 = 5: lightning
 
-so the shard with id 97 would be a fire shard because 97 % 6 == 1,
-while id 102 would be a wild shard since 102 % 6 == 0
+    // so the shard with id 97 would be a fire shard because 97 % 6 == 1,
+    // while id 102 would be a wild shard since 102 % 6 == 0
 
-shard IDs start after all the ids available for helms
-*/
+    // shard IDs start after all the ids available for helms
     function conjureShard() external payable {
         require(shardsConjured < 1000, "barren");
         require(msg.value >= nextShardPrice(), "gold");
@@ -136,9 +142,15 @@ shard IDs start after all the ids available for helms
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override
+        returns (bool)
+    {
         return
-            interfaceId == type(IERC2981Royalties).interfaceId  ||
+            interfaceId == type(IERC2981Royalties).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 
