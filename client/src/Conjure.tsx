@@ -15,6 +15,7 @@ export default function Conjure() {
       provider
     );
     const load = async () => {
+      console.log("Do load");
       const currentConjured = await ArtifactsContract.getCurrentConjured();
       const currentAvailability =
         await ArtifactsContract.getCurrentAvailability();

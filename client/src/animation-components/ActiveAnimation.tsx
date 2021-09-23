@@ -5,20 +5,21 @@ import LightningAnimation from "./Lightning";
 import SandAnimation from "./Sand";
 
 export default function ActiveAnimation({ storms }: { storms: StormStatuses }) {
+  const animations = [];
   if (storms.fire === StormStatus.ACTIVE) {
-    return <FireAnimation />;
+    animations.push(<FireAnimation />);
   }
   if (storms.ice === StormStatus.ACTIVE) {
-    return <IceAnimation />;
+    animations.push(<IceAnimation />);
   }
   if (storms.sand === StormStatus.ACTIVE) {
-    return <SandAnimation />;
+    animations.push(<SandAnimation />);
   }
   if (storms.lightning === StormStatus.ACTIVE) {
-    return <LightningAnimation />;
+    animations.push(<LightningAnimation />);
   }
   if (storms.wind === StormStatus.ACTIVE) {
-    // return <WindAnimation />
+    // animations.push(<WindAnimation />
   }
-  return null;
+  return <>{animations}</>;
 }
