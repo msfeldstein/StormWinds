@@ -23,7 +23,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prelaunch:watch": "parcel prelaunch/index.html --dist-dir prelaunch/build"
+    "prelaunch:watch": "parcel prelaunch/index.html --dist-dir prelaunch/build",
+    "prelaunch:build": "parcel build prelaunch/index.html --dist-dir prelaunch/build",
+    "prelaunch:clean": "rm -rf prelaunch/build/"
   },
   "eslintConfig": {
     "extends": [
