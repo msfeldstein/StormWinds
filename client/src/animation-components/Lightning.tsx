@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import BaseAnimation from "./Base";
 import * as core from "@theatre/core";
-import { types as t, ISheetObject } from "@theatre/core";
+import { ISheetObject } from "@theatre/core";
 import state from "./motion/lightning.json";
 import { perlin2 } from "./perlin2";
 
