@@ -11,6 +11,8 @@ import "./Base64.sol";
 import "./IERC2981Royalties.sol";
 import "./ERC2981ContractWideRoyalties.sol";
 
+import "./Loot.sol";
+
 import "hardhat/console.sol";
 
 //  __ _                      __    __ _           _
@@ -36,6 +38,7 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     uint256 currentAvailability = 200;
     uint256 currentConjured = 1; // Leave space for owner to claim 0
     uint256 currentPrice = .12 ether;
+    uint256 lootArtifactsConjured = 0;
 
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
 
@@ -165,8 +168,21 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     }
 
     function conjureArtifact() public payable {
-        require(currentConjured < currentAvailability, "dormancy");
         require(msg.value >= currentPrice, "destitution");
+        _conjureNext();
+    }
+
+    function conjureWithLoot(uint256 _lootTokenId) public {
+        require(lootArtifactsConjured < 100);
+        lootArtifactsConjured++;
+        Loot loot = Loot(lootAddress);
+        require(loot.ownerOf(_lootTokenId) == msg.sender);
+        require(compareStrings(loot.getChest(_lootTokenId), "Divine Helm"));
+        _conjureNext();
+    }
+
+    function _conjureNext() internal {
+        require(currentConjured < currentAvailability, "dormancy");
         uint256 tokenId = currentConjured;
         currentConjured++;
         _safeMint(msg.sender, tokenId);

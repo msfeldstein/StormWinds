@@ -25,6 +25,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "conjureArtifact()": FunctionFragment;
+    "conjureWithLoot(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getClassification(uint256)": FunctionFragment;
     "getCurrentAvailability()": FunctionFragment;
@@ -65,6 +66,10 @@ interface ArtifactsInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "conjureArtifact",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "conjureWithLoot",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -179,6 +184,10 @@ interface ArtifactsInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "conjureArtifact",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "conjureWithLoot",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -343,6 +352,11 @@ export class Artifacts extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    conjureWithLoot(
+      lootTokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -500,6 +514,11 @@ export class Artifacts extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  conjureWithLoot(
+    lootTokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -642,6 +661,11 @@ export class Artifacts extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     conjureArtifact(overrides?: CallOverrides): Promise<void>;
+
+    conjureWithLoot(
+      lootTokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -818,6 +842,11 @@ export class Artifacts extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    conjureWithLoot(
+      lootTokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -975,6 +1004,11 @@ export class Artifacts extends BaseContract {
 
     conjureArtifact(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    conjureWithLoot(
+      lootTokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getApproved(

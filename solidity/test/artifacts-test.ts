@@ -32,4 +32,13 @@ describe("Artifacts", function () {
   it("Conjures with payment", async function () {
     await artifacts.conjureArtifact({ value: ethers.utils.parseEther("0.12") });
   });
+
+  it("Conjures with a divine robe", async function () {
+    for (var i = 0; i < 8000; i++) {
+      const head = await loot.getHead(i);
+      console.log(i, head);
+    }
+  });
+
+  it("can't conjure twice with the same divine robe", async function () {});
 });
