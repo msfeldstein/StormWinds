@@ -25,7 +25,7 @@ function App() {
       setStorms(namedStorms);
     }
     load();
-    StormsContract.on("StormBegins", load);
+    // StormsContract.on("StormBegins", load);
   }, []);
 
   const connectedContent = (

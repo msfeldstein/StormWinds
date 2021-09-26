@@ -24,7 +24,7 @@ export default function Conjure() {
       setLoaded(true);
     };
     load();
-    ArtifactsContract.on("ArtifactConjured", load);
+    // ArtifactsContract.on("ArtifactConjured", load);
   }, []);
 
   async function conjure() {
