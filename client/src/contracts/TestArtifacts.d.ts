@@ -31,6 +31,7 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
     "getCurrentConjured()": FunctionFragment;
     "getCurrentPrice()": FunctionFragment;
     "getGear(uint256)": FunctionFragment;
+    "getLootAddress()": FunctionFragment;
     "getStorm(uint256)": FunctionFragment;
     "hasHelm(address,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -44,6 +45,7 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
     "royaltyInfo(uint256,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setLootAddress(address)": FunctionFragment;
     "setRoyalties(address,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -90,6 +92,10 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "getLootAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getStorm",
     values: [BigNumberish]
   ): string;
@@ -134,6 +140,10 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setLootAddress",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setRoyalties",
@@ -197,6 +207,10 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getGear", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getLootAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getStorm", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasHelm", data: BytesLike): Result;
   decodeFunctionResult(
@@ -226,6 +240,10 @@ interface TestArtifactsInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setLootAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -352,6 +370,8 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getLootAddress(overrides?: CallOverrides): Promise<[string]>;
+
     getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -422,6 +442,11 @@ export class TestArtifacts extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setLootAddress(
+      _loot: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -504,6 +529,8 @@ export class TestArtifacts extends BaseContract {
 
   getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+  getLootAddress(overrides?: CallOverrides): Promise<string>;
+
   getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   hasHelm(
@@ -568,6 +595,11 @@ export class TestArtifacts extends BaseContract {
   setApprovalForAll(
     operator: string,
     approved: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setLootAddress(
+    _loot: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -645,6 +677,8 @@ export class TestArtifacts extends BaseContract {
 
     getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+    getLootAddress(overrides?: CallOverrides): Promise<string>;
+
     getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     hasHelm(
@@ -701,6 +735,8 @@ export class TestArtifacts extends BaseContract {
       approved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setLootAddress(_loot: string, overrides?: CallOverrides): Promise<void>;
 
     setRoyalties(
       recipient: string,
@@ -821,6 +857,8 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getLootAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
     getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -889,6 +927,11 @@ export class TestArtifacts extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setLootAddress(
+      _loot: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -982,6 +1025,8 @@ export class TestArtifacts extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getLootAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getStorm(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1050,6 +1095,11 @@ export class TestArtifacts extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setLootAddress(
+      _loot: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

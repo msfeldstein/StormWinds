@@ -37,22 +37,28 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     uint256 currentConjured = 1; // Leave space for owner to claim 0
     uint256 currentPrice = .12 ether;
 
-    string constant FIRE = "Fire";
-    string constant SAND = "Sand";
-    string constant ICE = "Ice";
-    string constant WIND = "Wind";
-    string constant LIGHTNING = "Lightning";
+    address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
+
+    function getLootAddress() public view returns (address) {
+        return lootAddress;
+    }
+
+    string constant FIRE = "fire";
+    string constant SAND = "sand";
+    string constant ICE = "ice";
+    string constant WIND = "wind";
+    string constant LIGHTNING = "lightning";
 
     string[] private classification = [
-        "Ancient",
-        "Bright",
-        "Dark",
-        "Eldritch",
-        "Enlils",
-        "Loveless",
-        "Runic",
-        "Undead",
-        "Void"
+        "ancient",
+        "bright",
+        "dark",
+        "eldritch",
+        "enlils",
+        "loveless",
+        "runic",
+        "undead",
+        "void"
     ];
 
     string[] private classificationSVGs = [
@@ -76,7 +82,7 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         "M12 28V24H8V20H4V16H0V0H8V12H12V16H16V12H20V0H28V16H24V20H20V24H16V28H12ZM36 28V24H32V12H36V8H56V12H60V24H56V28H36ZM40 24H52V12H40V24ZM76 4V0H84V4H76ZM68 28V24H76V12H72V8H84V24H92V28H68ZM100 28V24H96V12H100V8H116V0H124V28H100ZM104 24H116V12H104V24Z"
     ];
 
-    string[] private storm = [FIRE, ICE, LIGHTNING, SAND, WIND];
+    string[] private storm = ["fire", "ice", "lightning", "sand", "wind"];
 
     string[] private stormSVGs = [
         /* Fire */
@@ -92,14 +98,14 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     ];
 
     string[] private gear = [
-        "Amulet",
-        "Crystal"
-        "Gem",
-        "Helm",
-        "Plate",
-        "Seed",
-        "Shard",
-        "Sword"
+        "amulet",
+        "crystal"
+        "gem",
+        "helm",
+        "plate",
+        "seed",
+        "shard",
+        "sword"
     ];
 
     string[] private gearSVGs = [
@@ -368,5 +374,9 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
 
     function getCurrentConjured() external view returns (uint256) {
         return currentConjured;
+    }
+
+    function setLootAddress(address _loot) public onlyOwner {
+        lootAddress = _loot;
     }
 }

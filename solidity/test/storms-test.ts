@@ -33,33 +33,21 @@ describe("Storms", function () {
     );
   });
 
-  it("Should have active fire storm once activated", async function () {
-    await artifacts.mintToken(1);
-    await storms.summon("fire", Math.floor(Date.now() / 1000) + 1000);
+  it("Should have active wind storm once activated", async function () {
+    // Token 10 happens to be an sand artifact.  If we change the random logic this could break.
+    // Not sure how to test this in a more robust way since its all randomized.
+    await artifacts.mintToken(10);
+    const storm = await artifacts.getStorm(10);
+    await storms.summon(storm, Math.floor(Date.now() / 1000) + 1000);
     const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
-    expect(fire).to.be.true;
-    expect(sand).to.be.false;
+    expect(fire).to.be.false;
+    expect(sand).to.be.true;
     expect(ice).to.be.false;
     expect(wind).to.be.false;
     expect(lightning).to.be.false;
     const fireActive = await storms.stormIsActive("fire");
-    expect(fireActive).to.be.true;
-    const windActive = await storms.stormIsActive("wind");
-    expect(windActive).to.be.false;
-  });
-
-  it("Should have active wind storm once activated", async function () {
-    await artifacts.mintToken(10);
-    await storms.summon("wind", Math.floor(Date.now() / 1000) + 1000);
-    const [fire, sand, ice, wind, lightning] = await storms.activeStorms();
-    expect(fire).to.be.false;
-    expect(sand).to.be.false;
-    expect(ice).to.be.false;
-    expect(wind).to.be.true;
-    expect(lightning).to.be.false;
-    const fireActive = await storms.stormIsActive("fire");
     expect(fireActive).to.be.false;
-    const windActive = await storms.stormIsActive("wind");
+    const windActive = await storms.stormIsActive(storm);
     expect(windActive).to.be.true;
   });
 
@@ -105,12 +93,5 @@ describe("Storms", function () {
     expect(ice).to.be.false;
     expect(wind).to.be.false;
     expect(lightning).to.be.false;
-  });
-
-  it("Supports royalties", async function () {
-    const supports = await artifacts.supportsInterface(0x2a55205a);
-    expect(supports).to.be.true;
-    const [receiver, amount] = await artifacts.royaltyInfo(0, 10000);
-    expect(amount).to.eq(1000);
   });
 });

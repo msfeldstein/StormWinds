@@ -38,11 +38,11 @@ contract Storms is Ownable {
         )
     {
         return (
-            activeStormMapping["Fire"] > block.timestamp,
-            activeStormMapping["Sand"] > block.timestamp,
-            activeStormMapping["Ice"] > block.timestamp,
-            activeStormMapping["Wind"] > block.timestamp,
-            activeStormMapping["Lightning"] > block.timestamp
+            activeStormMapping["fire"] > block.timestamp,
+            activeStormMapping["sand"] > block.timestamp,
+            activeStormMapping["ice"] > block.timestamp,
+            activeStormMapping["wind"] > block.timestamp,
+            activeStormMapping["lightning"] > block.timestamp
         );
     }
 
@@ -66,11 +66,11 @@ contract Storms is Ownable {
     function summon(string calldata _storm, uint256 _endTime) external {
         require(_endTime > block.timestamp, "temporal");
         require(
-            compareStrings(_storm, "Fire") ||
-                compareStrings(_storm, "Sand") ||
-                compareStrings(_storm, "Ice") ||
-                compareStrings(_storm, "Wind") ||
-                compareStrings(_storm, "Lightning"),
+            compareStrings(_storm, "fire") ||
+                compareStrings(_storm, "sand") ||
+                compareStrings(_storm, "ice") ||
+                compareStrings(_storm, "wind") ||
+                compareStrings(_storm, "lightning"),
             "mystery"
         );
         Artifacts artifacts = Artifacts(artifactAddress);
