@@ -12,7 +12,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Artifacts.sol";
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract Storms is Ownable {
     event StormBegins(string storm);
@@ -84,7 +84,6 @@ contract Storms is Ownable {
             }
         }
         require(canSummon, "powerless");
-        console.log("Summoning", _storm, _endTime);
         activeStormMapping[_storm] = _endTime;
         emit StormBegins(_storm);
     }

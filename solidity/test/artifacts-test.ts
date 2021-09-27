@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, getUnnamedAccounts } from "hardhat";
 // @ts-ignore
 import { expectRevert } from "@openzeppelin/test-helpers";
 import { Contract } from "@ethersproject/contracts";
@@ -36,16 +36,27 @@ describe("Artifacts", function () {
   });
 
   it("Conjures with a divine hood", async function () {
-    // Loot@3303 has a divind hood
+    // Loot@3303 has a divine hood
     await loot.claim(3303);
     await artifacts.conjureWithLoot(3303);
   });
 
   it("can't conjure withsomeone elses loot", async function () {
-    // Loot@3303 has a divind hood
+    // Loot@3303 has a divine hood, but this account only has Loot@1
     await loot.claim(1);
+
+    // Claim the token with a different account
+    const accounts = await ethers.getSigners();
+    const otherAccount = accounts[2];
+    await loot.connect(otherAccount).claim(3303);
+
     await expectRevert(artifacts.conjureWithLoot(3303), "lies");
   });
 
-  it("can't conjure twice with the same divine robe", async function () {});
+  it("can't conjure twice with the same divine robe", async function () {
+    // Loot@3303 has a divine hood
+    await loot.claim(3303);
+    await artifacts.conjureWithLoot(3303);
+    await expectRevert(artifacts.conjureWithLoot(3303), "greed");
+  });
 });

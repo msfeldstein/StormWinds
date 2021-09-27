@@ -10,6 +10,5 @@ contract TestArtifacts is Artifacts {
 
     function mintToken(uint256 _tokenId) public {
         _safeMint(msg.sender, _tokenId);
-        console.log("Minting", _tokenId, msg.sender);
     }
 }

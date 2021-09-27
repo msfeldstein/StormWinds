@@ -12,7 +12,7 @@ import "./IERC2981Royalties.sol";
 import "./ERC2981ContractWideRoyalties.sol";
 import "./ArtifactSVGBuilder.sol";
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 //  __ _                      __    __ _           _
 // / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
@@ -48,6 +48,8 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
 
     address lootAddress = 0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7;
     address svgBuilder;
+
+    mapping(uint256 => bool) divineHoodsClaimed;
 
     string constant FIRE = "fire";
     string constant SAND = "sand";
@@ -121,14 +123,22 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         _conjureNext();
     }
 
+    // Owners of a divine hood can claim an artifact for free
     function conjureWithLoot(uint256 _lootTokenId) public {
+        // Only 100 artifacts are available for free claiming
         require(lootArtifactsConjured < 100);
-        lootArtifactsConjured++;
+        // Only 1 artifact can be claimed with any hood
+        require(!divineHoodsClaimed[_lootTokenId], "greed");
+
         ILoot loot = ILoot(lootAddress);
-        address ownerOfLoot = loot.ownerOf(_lootTokenId);
-        require(ownerOfLoot == msg.sender, "lies");
+        // Ensure the token being used contains a Divine Hood
         string memory chest = loot.getHead(_lootTokenId);
         require(compareStrings(chest, "Divine Hood"));
+        // Ensure the person trying to claim this actually owns it
+        require(loot.ownerOf(_lootTokenId) == msg.sender, "lies");
+
+        lootArtifactsConjured++;
+        divineHoodsClaimed[_lootTokenId] = true;
         _conjureNext();
     }
 
