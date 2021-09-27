@@ -20,37 +20,16 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ArtifactSVGBuilderInterface extends ethers.utils.Interface {
   functions: {
-    "getClassification(uint256)": FunctionFragment;
-    "getGear(uint256)": FunctionFragment;
-    "getStorm(uint256)": FunctionFragment;
-    "svgForToken(uint256)": FunctionFragment;
+    "svgForStrings(uint256,string,string,string)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "getClassification",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getGear",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getStorm",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "svgForToken",
-    values: [BigNumberish]
+    functionFragment: "svgForStrings",
+    values: [BigNumberish, string, string, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "getClassification",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getGear", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getStorm", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "svgForToken",
+    functionFragment: "svgForStrings",
     data: BytesLike
   ): Result;
 
@@ -101,53 +80,29 @@ export class ArtifactSVGBuilder extends BaseContract {
   interface: ArtifactSVGBuilderInterface;
 
   functions: {
-    getClassification(
+    svgForStrings(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getGear(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getStorm(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    svgForToken(
-      _tokenId: BigNumberish,
+      classification: string,
+      storm: string,
+      gear: string,
       overrides?: CallOverrides
     ): Promise<[string]>;
   };
 
-  getClassification(
+  svgForStrings(
     tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  svgForToken(
-    _tokenId: BigNumberish,
+    classification: string,
+    storm: string,
+    gear: string,
     overrides?: CallOverrides
   ): Promise<string>;
 
   callStatic: {
-    getClassification(
+    svgForStrings(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    svgForToken(
-      _tokenId: BigNumberish,
+      classification: string,
+      storm: string,
+      gear: string,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -155,45 +110,21 @@ export class ArtifactSVGBuilder extends BaseContract {
   filters: {};
 
   estimateGas: {
-    getClassification(
+    svgForStrings(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getGear(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getStorm(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    svgForToken(
-      _tokenId: BigNumberish,
+      classification: string,
+      storm: string,
+      gear: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getClassification(
+    svgForStrings(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getGear(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getStorm(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    svgForToken(
-      _tokenId: BigNumberish,
+      classification: string,
+      storm: string,
+      gear: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

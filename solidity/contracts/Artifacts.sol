@@ -7,12 +7,11 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "./Base64.sol";
 import "./IERC2981Royalties.sol";
 import "./ERC2981ContractWideRoyalties.sol";
 import "./ArtifactSVGBuilder.sol";
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 //  __ _                      __    __ _           _
 // / _\ |_ ___  _ __ _ __ ___/ / /\ \ (_)_ __   __| |___
@@ -69,7 +68,7 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         "void"
     ];
 
-    string[] private storm = ["fire", "ice", "lightning", "sand", "wind"];
+    string[] private storm = [FIRE, ICE, LIGHTNING, SAND, WIND];
 
     string[] private gear = [
         "amulet",
@@ -170,7 +169,13 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
         returns (string memory)
     {
         ArtifactSVGBuilder builder = ArtifactSVGBuilder(svgBuilder);
-        return builder.svgForToken(tokenId);
+        return
+            builder.svgForStrings(
+                tokenId,
+                getClassification(tokenId),
+                getStorm(tokenId),
+                getGear(tokenId)
+            );
     }
 
     function toString(uint256 value) internal pure returns (string memory) {

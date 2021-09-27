@@ -3,6 +3,7 @@ import { ethers, getUnnamedAccounts } from "hardhat";
 // @ts-ignore
 import { expectRevert } from "@openzeppelin/test-helpers";
 import { Contract } from "@ethersproject/contracts";
+import { DOMParser } from "xmldom";
 
 describe("Artifacts", function () {
   let artifacts: Contract;
@@ -58,5 +59,26 @@ describe("Artifacts", function () {
     await loot.claim(3303);
     await artifacts.conjureWithLoot(3303);
     await expectRevert(artifacts.conjureWithLoot(3303), "greed");
+  });
+
+  it("generates a valid tokenURI", async function () {
+    const tokenURI = await artifacts.tokenURI(300);
+    const base64 = tokenURI.split(",")[1];
+    let buff = Buffer.from(base64, "base64");
+    let jsonStr = buff.toString("utf-8");
+    const json = JSON.parse(jsonStr);
+    // Should have the token id in the name
+    const imageDataUrl = json.image;
+    const base64SVG = imageDataUrl.split(",")[1];
+    const svgBuffer = Buffer.from(base64SVG, "base64");
+    const svg = svgBuffer.toString("utf-8");
+    let err = null;
+    var parser = new DOMParser({
+      errorHandler: function (e) {
+        err = e;
+      },
+    });
+    parser.parseFromString(svg, "text/xml");
+    expect(err).to.be.null;
   });
 });

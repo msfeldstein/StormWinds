@@ -6,7 +6,7 @@ import "./Artifacts.sol";
 import "hardhat/console.sol";
 
 contract TestArtifacts is Artifacts {
-    constructor(address svgBuilter) Artifacts(svgBuilder) {}
+    constructor(address svgBuilder) Artifacts(svgBuilder) {}
 
     function mintToken(uint256 _tokenId) public {
         _safeMint(msg.sender, _tokenId);

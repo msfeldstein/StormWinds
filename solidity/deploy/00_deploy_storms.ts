@@ -16,7 +16,6 @@ module.exports = async (hre: HardhatRuntimeEnvironment) => {
     args: [svgBuilderResult.address],
     log: true,
   });
-  console.log(artifactsResult.address, "Address");
 
   const stormsResult = await deploy("Storms", {
     from: deployer,
