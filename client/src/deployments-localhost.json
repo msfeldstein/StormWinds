@@ -3,10 +3,16 @@
   "chainId": "1337",
   "contracts": {
     "Artifacts": {
-      "address": "0xf5059a5D33d5853360D16C683c16e67980206f36",
+      "address": "0x7969c5eD335650692Bc04293B07F5BF2e7A673C0",
       "abi": [
         {
-          "inputs": [],
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_svgBuilder",
+              "type": "address"
+            }
+          ],
           "stateMutability": "nonpayable",
           "type": "constructor"
         },
@@ -158,7 +164,7 @@
           "inputs": [
             {
               "internalType": "uint256",
-              "name": "lootTokenId",
+              "name": "_lootTokenId",
               "type": "uint256"
             }
           ],
@@ -258,19 +264,6 @@
               "internalType": "string",
               "name": "",
               "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getLootAddress",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
             }
           ],
           "stateMutability": "view",
@@ -709,7 +702,7 @@
       ]
     },
     "Storms": {
-      "address": "0x95401dc811bb5740090279Ba06cfA8fcF6113778",
+      "address": "0x7bc06c482DEAd17c0e297aFbC32f6e63d3846650",
       "abi": [
         {
           "inputs": [
@@ -1488,6 +1481,87 @@
           "name": "transferOwnership",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ]
+    },
+    "ArtifactSVGBuilder": {
+      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3",
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "getClassification",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "getGear",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "getStorm",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "_tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "svgForToken",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "pure",
           "type": "function"
         }
       ]

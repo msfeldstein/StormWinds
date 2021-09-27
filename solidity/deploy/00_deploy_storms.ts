@@ -5,9 +5,15 @@ module.exports = async (hre: HardhatRuntimeEnvironment) => {
   const { deploy } = hre.deployments;
   const { deployer } = await hre.getNamedAccounts();
 
-  const artifactsResult = await deploy("Artifacts", {
+  const svgBuilderResult = await deploy("ArtifactSVGBuilder", {
     from: deployer,
     args: [],
+    log: true,
+  });
+
+  const artifactsResult = await deploy("Artifacts", {
+    from: deployer,
+    args: [svgBuilderResult.address],
     log: true,
   });
   console.log(artifactsResult.address, "Address");

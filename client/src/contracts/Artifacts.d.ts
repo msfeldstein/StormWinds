@@ -32,7 +32,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "getCurrentConjured()": FunctionFragment;
     "getCurrentPrice()": FunctionFragment;
     "getGear(uint256)": FunctionFragment;
-    "getLootAddress()": FunctionFragment;
     "getStorm(uint256)": FunctionFragment;
     "hasHelm(address,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -94,10 +93,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "getGear",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getLootAddress",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getStorm",
@@ -211,10 +206,6 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getGear", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getLootAddress",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getStorm", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasHelm", data: BytesLike): Result;
   decodeFunctionResult(
@@ -353,7 +344,7 @@ export class Artifacts extends BaseContract {
     ): Promise<ContractTransaction>;
 
     conjureWithLoot(
-      lootTokenId: BigNumberish,
+      _lootTokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -377,8 +368,6 @@ export class Artifacts extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getLootAddress(overrides?: CallOverrides): Promise<[string]>;
 
     getStorm(
       tokenId: BigNumberish,
@@ -515,7 +504,7 @@ export class Artifacts extends BaseContract {
   ): Promise<ContractTransaction>;
 
   conjureWithLoot(
-    lootTokenId: BigNumberish,
+    _lootTokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -536,8 +525,6 @@ export class Artifacts extends BaseContract {
   getCurrentPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  getLootAddress(overrides?: CallOverrides): Promise<string>;
 
   getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -663,7 +650,7 @@ export class Artifacts extends BaseContract {
     conjureArtifact(overrides?: CallOverrides): Promise<void>;
 
     conjureWithLoot(
-      lootTokenId: BigNumberish,
+      _lootTokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -684,8 +671,6 @@ export class Artifacts extends BaseContract {
     getCurrentPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     getGear(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    getLootAddress(overrides?: CallOverrides): Promise<string>;
 
     getStorm(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -843,7 +828,7 @@ export class Artifacts extends BaseContract {
     ): Promise<BigNumber>;
 
     conjureWithLoot(
-      lootTokenId: BigNumberish,
+      _lootTokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -867,8 +852,6 @@ export class Artifacts extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    getLootAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     getStorm(
       tokenId: BigNumberish,
@@ -1007,7 +990,7 @@ export class Artifacts extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     conjureWithLoot(
-      lootTokenId: BigNumberish,
+      _lootTokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1035,8 +1018,6 @@ export class Artifacts extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    getLootAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getStorm(
       tokenId: BigNumberish,

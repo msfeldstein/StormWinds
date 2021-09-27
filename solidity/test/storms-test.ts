@@ -9,8 +9,10 @@ describe("Storms", function () {
   let artifacts: Contract;
 
   beforeEach(async function () {
+    const SVGBuilder = await ethers.getContractFactory("ArtifactSVGBuilder");
+    const svgBuilder = await SVGBuilder.deploy();
     const Artifacts = await ethers.getContractFactory("TestArtifacts");
-    artifacts = await Artifacts.deploy();
+    artifacts = await Artifacts.deploy(svgBuilder.address);
     await artifacts.deployed();
     const Storms = await ethers.getContractFactory("Storms");
     storms = await Storms.deploy(artifacts.address);
