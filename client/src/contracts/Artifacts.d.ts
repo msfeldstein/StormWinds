@@ -46,6 +46,7 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setLootAddress(address)": FunctionFragment;
     "setRoyalties(address,uint256)": FunctionFragment;
+    "setSVGBuilderAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
@@ -145,6 +146,10 @@ interface ArtifactsInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setSVGBuilderAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -242,6 +247,10 @@ interface ArtifactsInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setRoyalties",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setSVGBuilderAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -448,6 +457,11 @@ export class Artifacts extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setSVGBuilderAddress(
+      _svgBuilder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -599,6 +613,11 @@ export class Artifacts extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setSVGBuilderAddress(
+    _svgBuilder: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -732,6 +751,11 @@ export class Artifacts extends BaseContract {
     setRoyalties(
       recipient: string,
       value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setSVGBuilderAddress(
+      _svgBuilder: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -930,6 +954,11 @@ export class Artifacts extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setSVGBuilderAddress(
+      _svgBuilder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1093,6 +1122,11 @@ export class Artifacts extends BaseContract {
     setRoyalties(
       recipient: string,
       value: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSVGBuilderAddress(
+      _svgBuilder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

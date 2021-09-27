@@ -265,4 +265,8 @@ contract Artifacts is Ownable, ERC721Enumerable, ERC2981ContractWideRoyalties {
     function setLootAddress(address _loot) public onlyOwner {
         lootAddress = _loot;
     }
+
+    function setSVGBuilderAddress(address _svgBuilder) public onlyOwner {
+        svgBuilder = _svgBuilder;
+    }
 }
