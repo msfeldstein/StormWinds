@@ -6,6 +6,8 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-gas-reporter";
 import "hardhat-deploy";
+import dotenv from 'dotenv'
+dotenv.config()
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -44,16 +46,10 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
-    ropsten: {
-      url: "https://eth-ropsten.alchemyapi.io/v2/fPaqmXdqpVr6JQV4f0hdegj2Y8rwh6_d",
-      accounts: [
-        "0xf4947795e471b43fe86b0f8e1b86eadaab993a61d769b5ef808f87cac74f171b",
-      ],
-    },
     rinkeby: {
-      url: "https://eth-rinkeby.alchemyapi.io/v2/AA2aoABOa_0DfSIpiHlxeLKq7NL1czOv",
+      url: process.env.ALCHEMY_RINKEBY_URL,
       accounts: [
-        "0x552a4f25e41a0d722aa3d9c6ef69da6ee0ebdf28d9284d9714c0c7f32efb04b9",
+        process.env.RINKEBY_SECRET!
       ],
     },
   },
@@ -65,7 +61,7 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    apiKey: "22FWIVWKUQ6WP4DV12TJUMFPCWEMUKXGYB",
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
   paths: {
     deployments: "../client/src/deployments",
