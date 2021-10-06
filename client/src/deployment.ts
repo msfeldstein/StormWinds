@@ -1,16 +1,5 @@
+import LocalhostDeployment from "./deployments-localhost.json";
 import TestnetDeployment from "./deployments-testnet.json";
-
-import LocalStorms from './deployments/localhost/Storms.json'
-import LocalArtifacts from "./deployments/localhost/Artifacts.json"
-
-const LocalhostDeployment = {
-  "name": "localhost",
-  "chainId": "1337",
-  "contracts": {
-    Artifacts: LocalArtifacts,
-    Storms: LocalStorms
-  }
-}
 
 const deployment =
   process.env.NODE_ENV === "production"
