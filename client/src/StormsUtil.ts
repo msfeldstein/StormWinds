@@ -51,10 +51,8 @@ export async function summon(name: StormName) {
   );
   const signer = provider.getSigner();
   const authed = StormsContract.connect(signer);
-  const capped = name[0].toUpperCase() + name.slice(1);
-  console.log("Capped", capped);
   const result = await authed.summon(
-    capped,
+    name,
     Math.floor(Date.now() / 1000) + 1000
   );
   return result;
